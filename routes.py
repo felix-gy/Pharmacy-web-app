@@ -11,9 +11,6 @@ def index():
 def login():
     return render_template('login.html', the_title='Login')
 
-@app.route('/register')
-def register():
-    return render_template('register.html', the_title='Register')
 
 if __name__ == '__main__':
     app.run(debug=True)
