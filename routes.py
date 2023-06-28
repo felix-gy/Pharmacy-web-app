@@ -11,6 +11,6 @@ def index():
 def login():
     return render_template('login.html', the_title='Login')
 
-
 if __name__ == '__main__':
     app.run(debug=True)
+    
