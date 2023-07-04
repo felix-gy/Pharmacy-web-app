@@ -1,5 +1,5 @@
 # Pharmacy web app
 
-After installing all dependencies, run the app by entering its folder and typing:
+Después de instalar todas las dependencias, ejecute la aplicación ingresando a su carpeta y escribiendo:
 
-`python routes.py`
+`$ python routes.py`

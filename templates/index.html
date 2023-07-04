@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Farmacia Online</title>
+  <link href="index_estilo.css">
+  <script src="index_estilo.js"></script>
+</head>
+<body>
+  <div id="panel">
+    <h1>Farmacia Online</h1>
+    
+    <div id="search-box">
+      <input type="text" placeholder="Buscar productos">
+      <button>Buscar</button>
+    </div>
+    
+    <div id="product-list">
+      <div class="product">
+        <img src="producto1.jpg" alt="Producto 1">
+        <div class="product-name">Producto 1</div>
+        <div class="product-price">$10.00</div>
+        <button>Añadir al carrito</button>
+      </div>
+      <div class="product">
+        <img src="producto2.jpg" alt="Producto 2">
+        <div class="product-name">Producto 2</div>
+        <div class="product-price">$15.00</div>
+        <button>Añadir al carrito</button>
+      </div>
+      <div class="product">
+        <img src="producto3.jpg" alt="Producto 3">
+        <div class="product-name">Producto 3</div>
+        <div class="product-price">$20.00</div>
+        <button>Añadir al carrito</button>
+      </div>
+      <!-- Aquí puedes añadir más productos -->
+    </div>
+    
+    <div id="cart">
+      <h2>Carrito de compras</h2>
+      <div class="product">
+        <img src="producto1.jpg" alt="Producto 1">
+        <div class="product-name">Producto 1</div>
+        <div class="product-price">$10.00</div>
+        <button>Eliminar</button>
+      </div>
+      <div class="product">
+        <img src="producto2.jpg" alt="Producto 2">
+        <div class="product-name">Producto 2</div>
+        <div class="product-price">$15.00</div>
+        <button>Eliminar</button>
+      </div>
+      <!-- Aquí puedes mostrar los productos del carrito -->
+    </div>
+    
+    <div id="checkout">
+      <h2>Finalizar compra</h2>
+      <form id="checkout-form">
+        <input type="text" placeholder="Nombre">
+        <input type="email" placeholder="Correo electrónico">
+        <button>Comprar</button>
+      </form>
+    </div>
+  </div>
+ <script src="index_estilo.js"></script>
+</body>
+</html>
