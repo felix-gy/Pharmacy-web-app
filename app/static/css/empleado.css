@@ -1,0 +1,98 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 100%;
+    color: #000;
+    background: #407189;
+    margin: 0;
+}
+
+/* Estilos generales 
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos del panel de vista de usuario */
+#panel {
+width: 800px;
+margin: 0 auto;
+padding: 20px;
+}
+
+h1 {
+text-align: center;
+}
+
+#search-box {
+margin-bottom: 20px;
+}
+
+#product-list {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 20px;
+}
+
+.product {
+border: 1px solid #ccc;
+padding: 10px;
+text-align: center;
+}
+
+.product img {
+width: 100px;
+height: 100px;
+margin-bottom: 10px;
+}
+
+.product-name {
+font-weight: bold;
+}
+
+/* Estilos del carrito */
+#cart {
+margin-top: 40px;
+border-top: 2px solid #ccc;
+padding-top: 20px;
+}
+
+#cart .product {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 10px;
+}
+
+#cart .product img {
+width: 50px;
+height: 50px;
+margin-right: 10px;
+}
+
+/* Estilos de la compra y factura */
+#checkout {
+margin-top: 40px;
+border-top: 2px solid #ccc;
+padding-top: 20px;
+}
+
+#checkout-form input[type="text"], #checkout-form input[type="email"] {
+width: 100%;
+margin-bottom: 10px;
+padding: 5px;
+}
+
+#checkout-form button {
+padding: 10px 20px;
+background-color: #4CAF50;
+color: white;
+border: none;
+cursor: pointer;
+}
