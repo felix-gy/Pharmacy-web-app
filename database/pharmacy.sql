@@ -15,7 +15,6 @@ CREATE TABLE Sucursal
   ID_farmacia INT NOT NULL,
   PRIMARY KEY (ID_sucursal),
   FOREIGN KEY (ID_farmacia) REFERENCES Farmacia(ID_farmacia),
-  UNIQUE ()
 );
 
 CREATE TABLE Distribuidor
