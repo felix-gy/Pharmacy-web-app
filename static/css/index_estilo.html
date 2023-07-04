@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Farmacia Online</title>
+
+  <script src="index_estilo.js"></script>
+  <style>
+        /* Estilos generales */
+        body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    /* Estilos del panel de vista de usuario */
+    #panel {
+      width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    h1 {
+      text-align: center;
+    }
+    
+    #search-box {
+      margin-bottom: 20px;
+    }
+    
+    #product-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    
+    .product {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+    
+    .product img {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 10px;
+    }
+    
+    .product-name {
+      font-weight: bold;
+    }
+    
+    /* Estilos del carrito */
+    #cart {
+      margin-top: 40px;
+      border-top: 2px solid #ccc;
+      padding-top: 20px;
+    }
+    
+    #cart .product {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    
+    #cart .product img {
+      width: 50px;
+      height: 50px;
+      margin-right: 10px;
+    }
+    
+    /* Estilos de la compra y factura */
+    #checkout {
+      margin-top: 40px;
+      border-top: 2px solid #ccc;
+      padding-top: 20px;
+    }
+    
+    #checkout-form input[type="text"], #checkout-form input[type="email"] {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 5px;
+    }
+    
+    #checkout-form button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="panel">
+    <h1>Farmacia Online</h1>
+    
+    <div id="search-box">
+      <input type="text" placeholder="Buscar productos">
+      <button>Buscar</button>
+    </div>
+    
+    <div id="product-list">
+      <div class="product">
+        <img src="producto1.jpg" alt="Producto 1">
+        <div class="product-name">Producto 1</div>
+        <div class="product-price">$10.00</div>
+        <button>Añadir al carrito</button>
+      </div>
+      <div class="product">
+        <img src="producto2.jpg" alt="Producto 2">
+        <div class="product-name">Producto 2</div>
+        <div class="product-price">$15.00</div>
+        <button>Añadir al carrito</button>
+      </div>
+      <div class="product">
+        <img src="producto3.jpg" alt="Producto 3">
+        <div class="product-name">Producto 3</div>
+        <div class="product-price">$20.00</div>
+        <button>Añadir al carrito</button>
+      </div>
+      <!-- Aquí puedes añadir más productos -->
+    </div>
+    
+    <div id="cart">
+      <h2>Carrito de compras</h2>
+      <div class="product">
+        <img src="producto1.jpg" alt="Producto 1">
+        <div class="product-name">Producto 1</div>
+        <div class="product-price">$10.00</div>
+        <button>Eliminar</button>
+      </div>
+      <div class="product">
+        <img src="producto2.jpg" alt="Producto 2">
+        <div class="product-name">Producto 2</div>
+        <div class="product-price">$15.00</div>
+        <button>Eliminar</button>
+      </div>
+      <!-- Aquí puedes mostrar los productos del carrito -->
+    </div>
+    
+    <div id="checkout">
+      <h2>Finalizar compra</h2>
+      <form id="checkout-form">
+        <input type="text" placeholder="Nombre">
+        <input type="email" placeholder="Correo electrónico">
+        <button>Comprar</button>
+      </form>
+    </div>
+  </div>
+ <script src="index_estilo.js"></script>
+</body>
+</html>
