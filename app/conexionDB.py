@@ -1,12 +1,13 @@
 #Importando Libreria mysql.connector para conectar Python con MySQL
 import mysql.connector
 
+#Conexion a la base de datos alojada en Railway 
 def connectionBD():
     mydb = mysql.connector.connect(
-        host ="localhost",
+        host ="containers-us-west-3.railway.app",
         user ="root",
-        passwd ="",
-        database = "crud_flask_python"
+        passwd ="WsyaOxtoAftnbyIB93Wv",
+        database = "railway"
         )
     if mydb:
         print ("Conexion exitosa a BD")
