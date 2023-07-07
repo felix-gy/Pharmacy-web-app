@@ -1,13 +1,13 @@
 #Importando Libreria mysql.connector para conectar Python con MySQL
 import mysql.connector
 
-#Conexion a la base de datos alojada en Railway 
+#Conectandose la base desplegada en la nube
 def connectionBD():
     mydb = mysql.connector.connect(
-        host ="containers-us-west-3.railway.app",
-        user ="root",
-        passwd ="WsyaOxtoAftnbyIB93Wv",
-        database = "railway"
+        host ="sql.freedb.tech",
+        user ="freedb_db_test_111",
+        passwd ="4JKtwGf@DQD@b?w",
+        database = "freedb_db_pharmacy"
         )
     if mydb:
         print ("Conexion exitosa a BD")

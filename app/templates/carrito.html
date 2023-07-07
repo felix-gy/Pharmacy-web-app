@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block customCSS %} 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/carrito.css') }}">
 {% endblock %}
 
 {% block body %}
 <div id="panel">
 
-<h1>{{ the_title }}</h1>
+<h1> Carrito </h1>
 
 <div id="search-box">
     <input type="text" placeholder="Buscar productos">
@@ -65,5 +65,5 @@
 {% endblock %}
 
 {% block js %}
-<script src="{{ url_for('static', filename='js/index_estilo.js') }}"></script>
+<script src="{{ url_for('static', filename='js/carrito.js') }}"></script>
 {% endblock %}

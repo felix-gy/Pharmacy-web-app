@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block customCSS %}
+<!-- Nota: Bootstrap ya viene por Defecto-->
+{% endblock %}
+
+{% block body %}
+<h1>Farmacia</h1>
+
+<h3>AÑADIR SUCURSAL:</h3>
+<!-- al apretar el submit el formulario sera enviado a la url por el metodo Post-->
+<form action="/add_Sucursal" method="POST">
+    <input type="text" name="nombre">
+    <input type="text" name="direccion">
+    <input type="text" name="telefono">
+    <button type="submit">
+        AÑADIR
+    </button>
+</form>
+
+<h3>SUCURSALES:</h3>
+{% for sucursal in miData %}
+<div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+    <p>ID_sucursal: {{ sucursal.ID_sucursal }}</p>
+    <p>direccion: {{ sucursal.direccion }}</p>
+    <p>telefono: {{ sucursal.telefono }}</p>
+    <p>nombre: {{ sucursal.nombre }}</p>
+    <p>ID_farmacia: {{ sucursal.ID_farmacia }}</p>
+</div>
+{% endfor %}
+
+{% endblock %}
+
+{% block js %}
+<!-- aqui pon el link al js -->
+{% endblock %}
