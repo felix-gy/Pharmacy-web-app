@@ -1,6 +1,6 @@
 # Pharmacy web app
 
-### Instalacion
+### Instalación
 
 ```bash
 git clone https://github.com/felix-gy/Pharmacy-web-app.git
