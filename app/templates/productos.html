@@ -1,14 +1,36 @@
-{% extends 'base.html' %}
-
-{% block customCSS %}
-{% endblock %}
-
-<!-- Contenido -->
-{% block body %}
-
-<h2>Productos</h2>
-
-{% endblock %}
-
-{% block js %}
-{% endblock %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Panel de administración</title>
+</head>
+<body>
+    <h1>Productos</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Precio</th>
+            <th>Cantidad en stock</th>
+            <th>Acciones</th>
+        </tr>
+        {% for producto in productos %}
+        <tr>
+            <td>{{ producto[0] }}</td>
+            <td>{{ producto[1] }}</td>
+            <td>{{ producto[2] }}</td>
+            <td>{{ producto[3] }}</td>
+            <td>{{ producto[4] }}</td>
+            <td>
+                <form action="/eliminar_producto/{{ producto[0] }}" method="post">
+                    <input type="submit" value="Eliminar">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <form action="/agregar_producto" method="get">
+    <button type="submit">Agregar Producto</button>
+    </form>
+</body>
+</html>
