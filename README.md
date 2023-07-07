@@ -3,7 +3,9 @@
 https://phpmyadmin.freedb.tech/index.php?route=/&route=%2F
 
 Server: ` sql.freedb.tech `
+
 Username: ` freedb_db_test_111 `
+
 password: ` 4JKtwGf@DQD@b?w `
 
 ### Instalación
