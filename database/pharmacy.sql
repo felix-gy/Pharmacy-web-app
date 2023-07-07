@@ -67,6 +67,13 @@ CREATE TABLE Categoria
   PRIMARY KEY (ID_categoria)
 );
 
+CREATE TABLE Receta
+(
+  ID_receta INT,
+  descripcion VARCHAR(200),
+  PRIMARY KEY (ID_receta)
+);
+
 CREATE TABLE Empleado
 (
   ID_empleado INT NOT NULL AUTO_INCREMENT,
