@@ -17,10 +17,10 @@ def sucursal():
 @app.route('/add_Sucursal', methods=['POST'])
 def add_Sucursal():
     #recivimos los datos
-    direccion = request.form['direccion']
     nombre = request.form['nombre']
+    direccion = request.form['direccion']
     telefono = request.form['telefono']
-    realizado = registrarSucursal(direccion,nombre,telefono)
+    realizado = registrarSucursal(nombre,direccion,telefono)
     # retornamos a nuestra vista sucursales
     return redirect(url_for('sucursal'))
 

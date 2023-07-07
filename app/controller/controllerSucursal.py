@@ -18,8 +18,8 @@ def registrarSucursal( nombre='',direccion='',telefono = ''):
         conexion_MySQLdb = connectionBD()
         cursor = conexion_MySQLdb.cursor(dictionary=True)
 
-        sql = ("INSERT INTO Sucursal(nombre, direccion, telefono, ID_farmacia) VALUES (%s, %s, %s, %s)")
-        valores = (nombre, direccion, telefono, 1)
+        sql = ("INSERT INTO Sucursal(direccion, telefono, nombre, ID_farmacia) VALUES (%s, %s, %s, %s)")
+        valores = (direccion, telefono, nombre, 1)
         
         cursor.execute(sql, valores)
         conexion_MySQLdb.commit()
