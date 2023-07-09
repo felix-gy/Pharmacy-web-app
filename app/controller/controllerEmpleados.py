@@ -20,7 +20,7 @@ def registrarEmpleado(nombre='', apellido='', direccion='', telefono='', email='
     cursor = conexion_MySQLdb.cursor(dictionary=True)
 
     # Generar un ID aleatorio de 10 dígitos
-    id_empleado = str(random.randint(100, 10000))
+    id_empleado = str(random.randint(10, 100))
 
     sql = "INSERT INTO Empleado (ID_empleado, nombre, apellido, direccion, telefono, email, contrato_fecha, ID_sucursal) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
     valores = (id_empleado, nombre, apellido, direccion, telefono, email, contrato_fecha, id_sucursal)

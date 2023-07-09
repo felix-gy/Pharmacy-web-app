@@ -8,39 +8,55 @@ app = Flask(__name__)
 
 #conexion a BD lo mismo que el archivo conexionBD.py
 db = mysql.connector.connect(
-    host="sql.freedb.tech",
-    user="freedb_db_test_111",
-    passwd="4JKtwGf@DQD@b?w",
-    database="freedb_db_pharmacy"
+    # host="sql.freedb.tech",
+    # user="freedb_db_test_111",
+    # passwd="4JKtwGf@DQD@b?w",
+    # database="freedb_db_pharmacy"
+    host ="127.0.0.1",
+    user ="root",
+    passwd ="gordillo303132x",
+    database = "db_pharmacy"
 )
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/sucursal')
-def sucursal():
+
+#Sucursal
+################################################################
+@app.route('/sucursal',methods=['GET','POST'])
+def sucursalView():
     # Obtenemos la lista de sucursales
-    # La enviamos como argumento de la forma: dato = dato
-    return render_template('sucursales.html', miData = listaSucursales())
+    return render_template('sucursales.html', lista = listaSucursales())
 
 @app.route('/add_Sucursal', methods=['POST'])
 def add_Sucursal():
-    #recivimos los datos
     nombre = request.form['nombre']
     direccion = request.form['direccion']
     telefono = request.form['telefono']
     realizado = registrarSucursal(nombre,direccion,telefono)
-    # retornamos a nuestra vista sucursales
-    return redirect(url_for('sucursal'))
+    return redirect(url_for('sucursalView'))
 
+@app.route('/delete_sucursal/<string:id>')
+def delete_sucursal(id):
+    eliminarSucursal(id)
+    return redirect(url_for('sucursalView'))
 
+@app.route('/edit_sucursal/<string:id>')
+def edit_sucursal(id):
+    return render_template('edit-sucursal.html', data = getSucursal(id))
 
+@app.route('/update_sucursal/<string:id>', methods=['POST'])
+def update_sucursal(id):
+    nombre = request.form['nombre']
+    direccion = request.form['direccion']
+    telefono = request.form['telefono']
+    updateSucursal(nombre,direccion,telefono,id)
+    return redirect(url_for('sucursalView'))
 
-# @app.route('/empleado')
-# def empleado():
-#     return render_template('empleado.html',the_title='Farmacia')
-
+#Empleado
+################################################################
 @app.route('/empleados')
 def empleados():
     # Obtenemos la lista de empleados
@@ -69,15 +85,10 @@ def add_Empleado():
     # Redirigimos a la vista "empleados"
     return redirect(url_for('empleados'))
 
-
-
-
-
-
-
-
+#Producto
+################################################################
 # Ruta principal que muestra todos los productos
-@app.route('/')
+@app.route('/productos')
 def mostrar_productos():
     cursor = db.cursor()
     cursor.execute("SELECT * FROM Producto")
@@ -101,7 +112,7 @@ def agregar_producto():
         cursor.execute("INSERT INTO Producto (nombre, descripcion, precio, stock_cantidad, ID_marca, ID_categoria, ID_sucursal, ID_receta) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
                        (nombre, descripcion, precio, stock_cantidad, id_marca, id_categoria, id_sucursal, id_receta))
         db.commit()
-        return redirect('/')
+        return redirect('/productos')
     else:
         cursor = db.cursor()
         cursor.execute("SELECT * FROM Marca")
@@ -120,59 +131,7 @@ def eliminar_producto(id):
     cursor = db.cursor()
     cursor.execute("DELETE FROM Producto WHERE ID_producto = %s", (id,))
     db.commit()
-    return redirect('/')
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-
-
-# Ruta principal que muestra todos los productos
-@app.route('/')
-def mostrar_productos():
-    cursor = db.cursor()
-    cursor.execute("SELECT * FROM Producto")
-    productos = cursor.fetchall()
-    return render_template('productos.html', productos=productos)
-
-# Ruta para agregar un producto
-@app.route('/agregar_producto', methods=['GET', 'POST'])
-def agregar_producto():
-    if request.method == 'POST':
-        nombre = request.form['nombre']
-        descripcion = request.form['descripcion']
-        precio = float(request.form['precio'])
-        stock_cantidad = int(request.form['stock_cantidad'])
-        id_marca = int(request.form['id_marca'])
-        id_categoria = int(request.form['id_categoria'])
-        id_sucursal = int(request.form['id_sucursal'])
-        id_receta = int(request.form['id_receta'])
-
-        cursor = db.cursor()
-        cursor.execute("INSERT INTO Producto (nombre, descripcion, precio, stock_cantidad, ID_marca, ID_categoria, ID_sucursal, ID_receta) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                       (nombre, descripcion, precio, stock_cantidad, id_marca, id_categoria, id_sucursal, id_receta))
-        db.commit()
-        return redirect('/')
-    else:
-        cursor = db.cursor()
-        cursor.execute("SELECT * FROM Marca")
-        marcas = cursor.fetchall()
-        cursor.execute("SELECT * FROM Categoria")
-        categorias = cursor.fetchall()
-        cursor.execute("SELECT * FROM Sucursal")
-        sucursales = cursor.fetchall()
-        cursor.execute("SELECT * FROM Receta")
-        recetas = cursor.fetchall()
-        return render_template('agregar_producto.html', marcas=marcas, categorias=categorias, sucursales=sucursales, recetas=recetas)
-
-# Ruta para eliminar un producto
-@app.route('/eliminar_producto/<int:id>', methods=['POST'])
-def eliminar_producto(id):
-    cursor = db.cursor()
-    cursor.execute("DELETE FROM Producto WHERE ID_producto = %s", (id,))
-    db.commit()
-    return redirect('/')
+    return redirect('/productos')
 
 
 if __name__ == '__main__':

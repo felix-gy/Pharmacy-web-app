@@ -19,18 +19,35 @@
 </form>
 
 <h3>SUCURSALES:</h3>
-{% for sucursal in miData %}
-<div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-    <p>ID_sucursal: {{ sucursal.ID_sucursal }}</p>
-    <p>nombre: {{ sucursal.nombre }}</p>
-    <p>direccion: {{ sucursal.direccion }}</p>
-    <p>telefono: {{ sucursal.telefono }}</p>
-    <p>ID_farmacia: {{ sucursal.ID_farmacia }}</p>
-</div>
-{% endfor %}
-
+<table class="table table-bordered table-hover" id="table">
+    <thead>
+        <tr class="table-secondary">
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Direccion</th>
+            <th scope="col">Telefono</th>
+            <th scope="col">#farmacia </th>
+            <th> Acciones </th>
+        </tr>
+    </thead>
+    <tbody id="tablebody">
+        {% for sucursal in lista %}
+        <tr>
+            <td>{{ sucursal.ID_sucursal }}</td>
+            <td>{{ sucursal.nombre }}</td>
+            <td>{{ sucursal.direccion }}</td>
+            <td>{{ sucursal.telefono }}</td>
+            <td>{{ sucursal.ID_farmacia }}</td>
+            <td>
+                <a class="btn btn-outline-info" href="/edit_sucursal/{{sucursal.ID_sucursal}}"> Editar </a>
+                <a class="btn btn-outline-danger" href="/delete_sucursal/{{sucursal.ID_sucursal}}"> Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
 
 {% block js %}
-<!-- aqui pon el link al js -->
+<script>new DataTable('#table');</script>
 {% endblock %}
