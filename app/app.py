@@ -85,6 +85,47 @@ def add_Empleado():
     # Redirigimos a la vista "empleados"
     return redirect(url_for('empleados'))
 
+@app.route('/empleados_vista')
+def empleados_vista():
+    empleados = listaEmpleados()
+    return render_template('empleados_vista.html', miData=empleados)
+
+@app.route('/buscar_empleado', methods=['POST'])
+def buscar_empleado():
+    correo = request.form['correo']
+    empleado = obtenerEmpleadoPorCorreo(correo)
+    return render_template('empleados_vista.html', miData=[empleado])
+
+@app.route('/editar_empleado/<int:id_empleado>', methods=['GET', 'POST'])
+def editar_empleado(id_empleado):
+    if request.method == 'POST':
+        # Obtén los datos enviados mediante el formulario de edición
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        direccion = request.form['direccion']
+        telefono = request.form['telefono']
+        email = request.form['email']
+        id_sucursal = request.form['ID_sucursal']
+
+        # Llama a una función que actualice los datos del empleado en la base de datos
+        # Pasando los nuevos valores y el ID del empleado a editar
+        actualizarEmpleado(id_empleado, nombre, apellido, direccion, telefono, email, id_sucursal)
+
+        # Redirige a la página de empleados después de la edición
+        return redirect(url_for('empleados_vista'))
+    else:
+        # Obtiene el empleado por su ID para mostrar los datos actuales en el formulario de edición
+        empleado = obtenerEmpleadoPorID(id_empleado)
+        return render_template('editar_empleado.html', empleado=empleado)
+
+@app.route('/borrar_empleado/<int:id_empleado>', methods=['POST'])
+def borrar_empleado(id_empleado):
+    # Llama a una función que borre al empleado de la base de datos
+    eliminarEmpleado(id_empleado)
+
+    # Redirige a la página de empleados después de borrar al empleado
+    return redirect(url_for('empleados_vista'))
+
 #Producto
 ################################################################
 # Ruta principal que muestra todos los productos

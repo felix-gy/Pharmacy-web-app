@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block customCSS %}
+<!-- Nota: Bootstrap ya viene por Defecto-->
+{% endblock %}
+
+{% block body %}
+    <h1>Empleados</h1>
+
+    <h3>BUSCAR EMPLEADO:</h3>
+    <form action="/buscar_empleado" method="POST">
+        Correo: <input type="text" name="correo" placeholder="Correo del empleado">
+        <button type="submit">BUSCAR</button>
+    </form>
+
+    <a href="/empleados" class="btn btn-primary">Añadir Empleado</a>
+
+    <h3>EMPLEADOS:</h3>
+    {% for empleado in miData %}
+    <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+        <p>ID: {{ empleado.ID_empleado }}</p>
+        <p>Nombre: {{ empleado.nombre }}</p>
+        <p>Apellido: {{ empleado.apellido }}</p>
+        <p>Dirección: {{ empleado.direccion }}</p>
+        <p>Teléfono: {{ empleado.telefono }}</p>
+        <p>Email: {{ empleado.email }}</p>
+        <p>Fecha de contrato: {{ empleado.contrato_fecha }}</p>
+        <p>Número de sucursal: {{ empleado.ID_sucursal }}</p>
+        <div>
+            <a href="/editar_empleado/{{ empleado.ID_empleado }}" class="btn btn-primary">Editar</a>
+            <form action="/borrar_empleado/{{ empleado.ID_empleado }}" method="POST" style="display: inline-block;">
+                <button type="submit" class="btn btn-danger">Borrar</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+
+{% endblock %}

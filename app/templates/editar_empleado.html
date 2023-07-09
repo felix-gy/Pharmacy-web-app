@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block customCSS %}
+<!-- Nota: Bootstrap ya viene por Defecto-->
+{% endblock %}
+
+{% block body %}
+    <h1>Editar Empleado</h1>
+
+    <form action="/editar_empleado/{{ empleado.ID_empleado }}" method="POST">
+        Nombre: <input type="text" name="nombre" value="{{ empleado.nombre }}" required><br>
+        Apellido: <input type="text" name="apellido" value="{{ empleado.apellido }}" required><br>
+        Dirección: <input type="text" name="direccion" value="{{ empleado.direccion }}" required><br>
+        Teléfono: <input type="text" name="telefono" value="{{ empleado.telefono }}" required><br>
+        Email: <input type="text" name="email" value="{{ empleado.email }}" required><br>
+        Número de sucursal: <input type="text" name="ID_sucursal" value="{{ empleado.ID_sucursal }}" required><br>
+        <button type="submit">Guardar Cambios</button>
+    </form>
+
+{% endblock %}
