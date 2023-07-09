@@ -32,7 +32,7 @@
     <label for="id_receta">Receta:</label>
     <select id="id_receta" name="id_receta">
         {% for receta in recetas %}
-        <option value="{{ receta[0] }}">No se requiere receta medica</option>
+        <option value="{{ receta[0] }}">No se requiere</option>
         {% endfor %}
     </select><br><br>
     <input type="submit" value="Agregar">
