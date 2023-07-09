@@ -3,6 +3,7 @@ import mysql.connector #el code no me funciona con el from controller.controller
 #importando las funciones
 from controller.controllerSucursal import *
 from controller.controllerEmpleados import *
+from controller.controllerCliente import *
 
 app = Flask(__name__)
 
@@ -174,6 +175,50 @@ def eliminar_producto(id):
     db.commit()
     return redirect('/productos')
 
+#CLiente
+################################################################
+
+@app.route('/clientes')
+def clienteView():
+    # Obtenemos la lista de empleados
+    data = listaClientes()
+    return render_template('clientes.html', lista=data)
+
+# Crear un nuevo cliente en la tabla "Cliente"
+@app.route('/add_cliente', methods=['POST'])
+def add_cliente():
+    nombre = request.form['nombre']
+    apellido = request.form['apellido']
+    direccion = request.form['direccion']
+    telefono = request.form['telefono']
+    email = request.form['email']
+    id_sucursal = request.form['sucursal']
+    crear_cliente(nombre, apellido, direccion, telefono, email, id_sucursal)
+    return redirect(url_for('clienteView'))
+
+# Eliminar un cliente de la tabla "Cliente" por su ID
+@app.route('/delete_cliente/<string:id>',methods=['GET'] )
+def delete_cliente(id):
+    eliminar_cliente(id)
+    return redirect(url_for('clienteView'))
+
+# Actualizar los datos de un cliente en la tabla "Cliente"
+@app.route('/edit_cliente/<string:id>')
+def edit_cliente(id):
+    cliente = obtener_cliente(id)
+    return render_template('edit-cliente.html', cliente=cliente)
+
+# Actualizar los datos de un cliente en la tabla "Cliente"
+@app.route('/update_cliente/<string:id>', methods=['POST'])
+def update_cliente(id):
+    nombre = request.form['nombre']
+    apellido = request.form['apellido']
+    direccion = request.form['direccion']
+    telefono = request.form['telefono']
+    email = request.form['email']
+    id_sucursal = request.form['sucursal']
+    actualizar_cliente(id, nombre, apellido, direccion, telefono, email, id_sucursal)
+    return redirect(url_for('clienteView'))
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<h3>AÑADIR CLIENTE:</h3>
+<!-- Al enviar el formulario, se enviará a la URL especificada en el atributo "action" mediante el método POST -->
+<form action="/add_cliente" method="POST">
+    Nombre:<input type="text" name="nombre">
+    Apellido:<input type="text" name="apellido">
+    Dirección:<input type="text" name="direccion">
+    Teléfono:<input type="text" name="telefono">
+    Email:<input type="text" name="email">
+    Sucursal:<input type="text" name="sucursal">
+    <button type="submit">
+        AÑADIR
+    </button>
+</form>
+
+<h3>CLIENTES:</h3>
+<table class="table table-bordered table-hover" id="table">
+    <thead>
+        <tr class="table-secondary">
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Dirección</th>
+            <th scope="col">Teléfono</th>
+            <th scope="col">Email</th>
+            <th scope="col">Sucursal</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody id="tablebody">
+        {% for cliente in lista %}
+        <tr>
+            <td>{{ cliente.ID_cliente }}</td>
+            <td>{{ cliente.nombre }}</td>
+            <td>{{ cliente.apellido }}</td>
+            <td>{{ cliente.direccion }}</td>
+            <td>{{ cliente.telefono }}</td>
+            <td>{{ cliente.email }}</td>
+            <td>{{ cliente.ID_sucursal }}</td>
+            <td>
+                <a class="btn btn-outline-info" href="/edit_cliente/{{ cliente.ID_cliente }}">Editar</a>
+                <a class="btn btn-outline-danger" href="/delete_cliente/{{ cliente.ID_cliente }}">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block js %}
+<script>new DataTable('#table');</script>
+{% endblock %}

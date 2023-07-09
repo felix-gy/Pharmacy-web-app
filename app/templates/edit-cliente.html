@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block customCSS %}
+{% endblock %}
+
+<!-- Contenido -->
+{% block body %}
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="card card-body">
+            <form action="/update_cliente/{{ cliente.ID_cliente }}" method="POST">
+                <div class="form-group mb-3">
+                    <input type="text" name="nombre" class="form-control" id="nombre" value="{{ cliente.nombre }}">
+                </div>
+                <div class="form-group mb-3">
+                    <input type="text" name="apellido" class="form-control" id="apellido" value="{{ cliente.apellido }}">
+                </div>
+                <div class="form-group mb-3">
+                    <input type="text" name="direccion" class="form-control" id="direccion" value="{{ cliente.direccion }}">
+                </div>
+                <div class="form-group mb-3">
+                    <input type="text" name="telefono" class="form-control" id="telefono" value="{{ cliente.telefono }}">
+                </div>
+                <div class="form-group mb-3">
+                    <input type="text" name="email" class="form-control" id="email" value="{{ cliente.email }}">
+                </div>
+                <div class="form-group mb-3">
+                    <input type="text" name="sucursal" class="form-control" id="sucursal" value="{{ cliente.ID_sucursal }}">
+                </div>
+                <div class="form-group mb-3">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Actualizar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+{% endblock %}

@@ -2,14 +2,12 @@ from conexionBD import *  #Importando conexion BD
 
 def listaSucursales():
     conexion_MySQLdb = connectionBD() #creando mi instancia a la conexion de BD
-    cur      = conexion_MySQLdb.cursor(dictionary=True)
-
+    cursor      = conexion_MySQLdb.cursor(dictionary=True)
     querySQL = "SELECT * FROM Sucursal"
-
-    cur.execute(querySQL) 
-    resultadoBusqueda = cur.fetchall() #fetchall () Obtener todos los registros
+    cursor.execute(querySQL) 
+    resultadoBusqueda = cursor.fetchall() #fetchall () Obtener todos los registros
     totalBusqueda = len(resultadoBusqueda) #Total de busqueda
-    cur.close() #Cerrando conexion SQL
+    cursor.close() #Cerrando conexion SQL
     conexion_MySQLdb.close() #cerrando conexion de la BD
     return resultadoBusqueda
 
@@ -24,10 +22,9 @@ def registrarSucursal( nombre='',direccion='',telefono = ''):
         conexion_MySQLdb.commit()
         cursor.close() #Cerrando conexion SQL
         conexion_MySQLdb.close() #cerrando conexion de la BD
-
-        resultado_insert = cursor.rowcount #retorna 1 o 0
-        ultimo_id        = cursor.lastrowid #retorna el id del ultimo registro
-        return resultado_insert
+        # resultado_insert = cursor.rowcount #retorna 1 o 0
+        # ultimo_id        = cursor.lastrowid #retorna el id del ultimo registro
+        # return resultado_insert
 
 def eliminarSucursal(id):
     conexion_MySQLdb = connectionBD()
