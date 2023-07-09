@@ -1,20 +1,82 @@
 {% extends 'base.html' %}
 
 {% block customCSS %}
-<!-- Nota: Bootstrap ya viene por Defecto-->
+<style>
+    body {
+        background: linear-gradient(to right, #00bfff, #000);
+        color: #333;
+        font-family: "Arial", sans-serif;
+    }
+
+    h1 {
+        color: #333;
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    form {
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+        color: #fff;
+    }
+
+    input[type="text"] {
+        background-color: rgba(255, 255, 255, 0.7);
+        color: #333;
+        border: none;
+        padding: 5px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    button[type="submit"] {
+        background-color: #4286f4;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        cursor: pointer;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 14px;
+        margin-top: 10px;
+        width: 150px; /* Ajustar el ancho del botón según tus necesidades */
+    }
+</style>
 {% endblock %}
 
 {% block body %}
     <h1>Editar Empleado</h1>
 
     <form action="/editar_empleado/{{ empleado.ID_empleado }}" method="POST">
-        Nombre: <input type="text" name="nombre" value="{{ empleado.nombre }}" required><br>
-        Apellido: <input type="text" name="apellido" value="{{ empleado.apellido }}" required><br>
-        Dirección: <input type="text" name="direccion" value="{{ empleado.direccion }}" required><br>
-        Teléfono: <input type="text" name="telefono" value="{{ empleado.telefono }}" required><br>
-        Email: <input type="text" name="email" value="{{ empleado.email }}" required><br>
-        Número de sucursal: <input type="text" name="ID_sucursal" value="{{ empleado.ID_sucursal }}" required><br>
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" value="{{ empleado.nombre }}" required><br>
+
+        <label for="apellido">Apellido:</label>
+        <input type="text" name="apellido" value="{{ empleado.apellido }}" required><br>
+
+        <label for="direccion">Dirección:</label>
+        <input type="text" name="direccion" value="{{ empleado.direccion }}" required><br>
+
+        <label for="telefono">Teléfono:</label>
+        <input type="text" name="telefono" value="{{ empleado.telefono }}" required><br>
+
+        <label for="email">Email:</label>
+        <input type="text" name="email" value="{{ empleado.email }}" required><br>
+
+        <label for="ID_sucursal">Número de sucursal:</label>
+        <input type="text" name="ID_sucursal" value="{{ empleado.ID_sucursal }}" required><br>
+
         <button type="submit">Guardar Cambios</button>
     </form>
-
 {% endblock %}

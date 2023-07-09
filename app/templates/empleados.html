@@ -1,60 +1,143 @@
 {% extends 'base.html' %}
 
 {% block customCSS %}
-<!-- Nota: Bootstrap ya viene por Defecto-->
+<style>
+    body {
+        background: linear-gradient(to right, #00bfff, #000);
+        color: #fff;
+        font-family: "Arial", sans-serif;
+    }
+
+    .title {
+        color: #fff;
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .form-container {
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+    }
+
+    .form-container label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    .form-container input[type="text"],
+    .form-container select {
+        background-color: rgba(255, 255, 255, 0.7);
+        color: #333;
+        border: none;
+        padding: 5px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        width: 100%;
+        max-width: 200px; /* Ajustar el ancho máximo de los campos de texto */
+    }
+
+    .form-container .btn-curved {
+        width: auto; /* Ajustar el ancho automáticamente */
+    }
+
+    .form-container button[type="submit"] {
+        background-color: #4286f4;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        cursor: pointer;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 14px;
+        margin-top: 10px;
+        border-radius: 50px; /* Estilo curvo del botón */
+    }
+
+    .card {
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        color: #fff;
+    }
+</style>
+
+
 {% endblock %}
 
 {% block body %}
-    <h1>Empleados</h1>
+    <h1 class="title">Lista de empleados</h1>
 
-    <h3>AÑADIR EMPLEADO:</h3>
-<!-- Al presionar el botón "AÑADIR", el formulario será enviado a la URL por el método POST -->
-<form action="/add_Empleado" method="POST">
-    Nombre: <input type="text" name="nombre" placeholder="Nombre del empleado">
-    Apellido: <input type="text" name="apellido" placeholder="Apellido del empleado">
-    Dirección: <input type="text" name="direccion" placeholder="Dirección del empleado">
-    Teléfono: <input type="text" name="telefono" placeholder="Teléfono del empleado">
-    Email: <input type="text" name="email" placeholder="Email del empleado">
-    Fecha de contrato:
-    <select name="dia">
-        <!-- Generar opciones para los días -->
-        {% for dia in range(1, 32) %}
-        <option value="{{ dia }}">{{ dia }}</option>
-        {% endfor %}
-    </select>
-    <select name="mes">
-        <!-- Generar opciones para los meses -->
-        {% for mes in range(1, 13) %}
-        <option value="{{ mes }}">{{ mes }}</option>
-        {% endfor %}
-    </select>
-    <select name="anio">
-        <!-- Generar opciones para los años -->
-        {% for anio in range(1900, 2101) %}
-        <option value="{{ anio }}">{{ anio }}</option>
-        {% endfor %}
-    </select>
-    Número de sucursal: <input type="text" name="ID_sucursal" placeholder="Número de sucursal">
-    <button type="submit">AÑADIR</button>
-</form>
+    <div class="form-container">
+        <h3>AÑADIR EMPLEADO:</h3>
+        <!-- Formulario para agregar empleado -->
+        <form action="/add_Empleado" method="POST">
+            <div>
+                <label for="nombre">Nombre:</label>
+                <input type="text" name="nombre" id="nombre" placeholder="Nombre del empleado">
+            </div>
+            <div>
+                <label for="apellido">Apellido:</label>
+                <input type="text" name="apellido" id="apellido" placeholder="Apellido del empleado">
+            </div>
+            <div>
+                <label for="direccion">Dirección:</label>
+                <input type="text" name="direccion" id="direccion" placeholder="Dirección del empleado">
+            </div>
+            <div>
+                <label for="telefono">Teléfono:</label>
+                <input type="text" name="telefono" id="telefono" placeholder="Teléfono del empleado">
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="text" name="email" id="email" placeholder="Email del empleado">
+            </div>
+            <div>
+                <label for="contrato_fecha">Fecha de contrato:</label>
+                <div>
+                    <select name="dia" id="dia">
+                        <!-- Generar opciones para los días -->
+                        {% for dia in range(1, 32) %}
+                        <option value="{{ dia }}">{{ dia }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="mes" id="mes">
+                        <!-- Generar opciones para los meses -->
+                        {% for mes in range(1, 13) %}
+                        <option value="{{ mes }}">{{ mes }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="anio" id="anio">
+                        <!-- Generar opciones para los años -->
+                        {% for anio in range(1900, 2101) %}
+                        <option value="{{ anio }}">{{ anio }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label for="ID_sucursal">Número de sucursal:</label>
+                <input type="text" name="ID_sucursal" id="ID_sucursal" placeholder="Número de sucursal">
+            </div>
+            <button type="submit" class="btn-curved">AÑADIR</button>
+        </form>
+    </div>
 
-
-    <h3>EMPLEADOS:</h3>
+    <h3 class="title">Lista de empleados:</h3>
     {% for empleado in miData %}
-    <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-        <p>ID: {{ empleado.ID_empleado }}</p>
-        <p>Nombre: {{ empleado.nombre }}</p>
-        <p>Apellido: {{ empleado.apellido }}</p>
-        <p>Dirección: {{ empleado.direccion }}</p>
-        <p>Teléfono: {{ empleado.telefono }}</p>
-        <p>Email: {{ empleado.email }}</p>
-        <p>Fecha de contrato: {{ empleado.contrato_fecha }}</p>
-        <p>Número de sucursal: {{ empleado.ID_sucursal }}</p>
+    <div class="card">
+        <p><strong>ID:</strong> {{ empleado.ID_empleado }}</p>
+        <p><strong>Nombre:</strong> {{ empleado.nombre }}</p>
+        <p><strong>Apellido:</strong> {{ empleado.apellido }}</p>
+        <p><strong>Dirección:</strong> {{ empleado.direccion }}</p>
+        <p><strong>Teléfono:</strong> {{ empleado.telefono }}</p>
+        <p><strong>Email:</strong> {{ empleado.email }}</p>
+        <p><strong>Fecha de contrato:</strong> {{ empleado.contrato_fecha }}</p>
+        <p><strong>Número de sucursal:</strong> {{ empleado.ID_sucursal }}</p>
     </div>
     {% endfor %}
-
-{% endblock %}
-
-{% block js %}
-<!-- aquí puedes poner el enlace al archivo JavaScript -->
 {% endblock %}
