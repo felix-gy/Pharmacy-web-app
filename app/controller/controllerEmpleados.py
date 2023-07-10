@@ -93,3 +93,15 @@ def eliminarEmpleado(id_empleado):
 
     cursor.close()
     conexion_MySQLdb.close()
+
+def obtenerVentasRealizadasPorEmpleado(id_empleado):
+    conexion_MySQLdb = connectionBD()
+    cursor = conexion_MySQLdb.cursor(dictionary=True)
+
+    querySQL = "SELECT * FROM Venta_empleado WHERE ID_empleado = %s"
+    cursor.execute(querySQL, (id_empleado,))
+    ventas = cursor.fetchall()
+    cursor.close()
+    conexion_MySQLdb.close()
+
+    return ventas

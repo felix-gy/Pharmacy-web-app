@@ -1,9 +1,20 @@
 from flask import Flask, render_template, request, redirect,url_for
+<<<<<<< HEAD
 import mysql.connector
 from controller.controllerSucursal import *
 from controller.controllerEmpleados import *
 from controller.controllerCliente import *
 from controller.controllerCategoria import *
+=======
+from datetime import date
+import random
+import mysql.connector #el code no me funciona con el from controller.controllerSucursal import * con este nomas
+#importando las funciones
+from controller.controllerSucursal import *
+from controller.controllerEmpleados import *
+from controller.controllerCliente import *
+from controller.controllerProducto import *
+>>>>>>> 1bf705fc258e6d0aaeaff63d7258268ed3b33bed
 
 db = mysql.connector.connect(
     host="sql.freedb.tech",
@@ -120,6 +131,71 @@ def borrar_empleado(id_empleado):
 
     # Redirige a la página de empleados después de borrar al empleado
     return redirect(url_for('empleados_vista'))
+
+@app.route('/empleados_vender/<int:id_empleado>', methods=['GET', 'POST'])
+def empleados_vender(id_empleado):
+    if request.method == 'POST':
+        nombre_producto = request.form['nombre_producto']
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM Producto WHERE nombre LIKE %s", ('%' + nombre_producto + '%',))
+        productos = cursor.fetchall()
+        return render_template('empleados_vender.html', productos=productos)
+    else:
+        # Obtener los datos del empleado según el ID_empleado utilizando obtenerEmpleadoPorID
+        empleado = obtenerEmpleadoPorID(id_empleado)
+
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM Producto")
+        productos = cursor.fetchall()
+
+        return render_template('empleados_vender.html', empleado=empleado, productos=productos)
+
+
+@app.route('/realizar_venta/<int:id_empleado>/<int:id_producto>', methods=['POST'])
+def realizar_venta(id_empleado, id_producto):
+    # Obtener los datos del empleado según el ID_empleado utilizando obtenerEmpleadoPorID
+    empleado = obtenerEmpleadoPorID(id_empleado)
+    producto = obtener_producto_por_id(id_producto)
+
+    if producto['stock_cantidad'] > 0:
+        # Realizar la venta: reducir la cantidad en stock del producto
+        cursor = db.cursor()
+        cursor.execute("UPDATE Producto SET stock_cantidad = stock_cantidad - 1 WHERE ID_producto = %s", (id_producto,))
+        db.commit()
+
+        # Verificar si la cantidad en stock llegó a cero
+        if producto['stock_cantidad'] == 1:
+            # Eliminar el producto de la base de datos
+            cursor.execute("DELETE FROM Producto WHERE ID_producto = %s", (id_producto,))
+            db.commit()
+
+        # Generar un número aleatorio entre 1000 y 10000 para el ID de la venta
+        id_venta = random.randint(1000, 10000)
+
+        # Insertar los datos de la venta en la tabla Venta_empleado
+        fecha_actual = date.today()
+        total_venta = producto['precio']  # Precio del producto
+
+        cursor.execute("INSERT INTO Venta_empleado (ID_venta, fecha, total, ID_empleado, ID_producto) VALUES (%s, %s, %s, %s, %s)",
+                       (id_venta, fecha_actual, total_venta, id_empleado, id_producto))
+        db.commit()
+
+        # Obtener los datos actualizados del empleado y los productos
+        empleado = obtenerEmpleadoPorID(id_empleado)
+        cursor.execute("SELECT * FROM Producto")
+        productos = cursor.fetchall()
+
+        return render_template('empleados_vender.html', empleado=empleado, productos=productos)
+    else:
+        return "El producto seleccionado no está disponible para la venta."
+
+
+
+ 
+@app.route('/empleados_venta/<int:id_empleado>')
+def empleado_venta(id_empleado):
+    ventas = obtenerVentasRealizadasPorEmpleado(id_empleado)
+    return render_template('empleados_venta.html', ventas=ventas)
 
 #Producto
 ################################################################

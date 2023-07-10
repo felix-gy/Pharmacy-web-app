@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h1>Venta Realizada por Empleado</h1>
+
+    {% if ventas %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Venta</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>ID Empleado</th>
+                    <th>ID Producto</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for venta in ventas %}
+                    <tr>
+                        <td>{{ venta.ID_venta }}</td>
+                        <td>{{ venta.fecha }}</td>
+                        <td>{{ venta.total }}</td>
+                        <td>{{ venta.ID_empleado }}</td>
+                        <td>{{ venta.ID_producto }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No se encontraron ventas realizadas.</p>
+    {% endif %}
+{% endblock %}
