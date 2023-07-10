@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block body %}
+
 <h1>Productos</h1>
 <table>
     <tr>
@@ -32,4 +33,7 @@
 <form action="/agregar_producto" method="GET">
 <button type="submit">Agregar Producto</button>
 </form>
+
+{% include 'categorias.html' %}
+
 {% endblock %}

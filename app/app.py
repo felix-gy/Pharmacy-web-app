@@ -1,13 +1,10 @@
 from flask import Flask, render_template, request, redirect,url_for
-import mysql.connector #el code no me funciona con el from controller.controllerSucursal import * con este nomas
-#importando las funciones
+import mysql.connector
 from controller.controllerSucursal import *
 from controller.controllerEmpleados import *
 from controller.controllerCliente import *
+from controller.controllerCategoria import *
 
-app = Flask(__name__)
-
-#conexion a BD lo mismo que el archivo conexionBD.py
 db = mysql.connector.connect(
     host="sql.freedb.tech",
     user="freedb_db_test_111",
@@ -15,10 +12,11 @@ db = mysql.connector.connect(
     database="freedb_db_pharmacy"
 )
 
+app = Flask(__name__)
+
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 #Sucursal
 ################################################################
@@ -131,7 +129,7 @@ def mostrar_productos():
     cursor = db.cursor()
     cursor.execute("SELECT * FROM Producto")
     productos = cursor.fetchall()
-    return render_template('productos.html', productos=productos)
+    return render_template('productos.html', productos=productos, categorias = listaCategoria())
 
 # Ruta para agregar un producto
 @app.route('/agregar_producto', methods=['GET', 'POST'])
@@ -173,7 +171,6 @@ def eliminar_producto(id):
 
 #CLiente
 ################################################################
-
 @app.route('/clientes')
 def clienteView():
     # Obtenemos la lista de empleados
@@ -215,6 +212,20 @@ def update_cliente(id):
     id_sucursal = request.form['sucursal']
     actualizar_cliente(id, nombre, apellido, direccion, telefono, email, id_sucursal)
     return redirect(url_for('clienteView'))
+
+#Categoria
+################################################################
+@app.route('/add_categoria', methods=['POST'])
+def add_categoria():
+    nombre = request.form['nombre']
+    crear_categoria(nombre)
+    return redirect(url_for('mostrar_productos'))
+
+@app.route('/delete_categoria/<string:id>',methods=['GET'] )
+def delete_categoria(id):
+    eliminar_categoria(id)
+    return redirect(url_for('mostrar_productos'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

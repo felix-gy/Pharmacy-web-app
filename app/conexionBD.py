@@ -1,4 +1,3 @@
-#Importando Libreria mysql.connector para conectar Python con MySQL
 import mysql.connector
 
 #Conectandose la base desplegada en la nube
