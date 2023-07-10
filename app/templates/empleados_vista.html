@@ -95,33 +95,35 @@
 {% endblock %}
 
 {% block body %}
-    <h1 class="title">Empleados</h1>
+    <h1>Empleados</h1>
 
-    <h3 class="title">BUSCAR EMPLEADO:</h3>
+    <h3>BUSCAR EMPLEADO:</h3>
     <form action="/buscar_empleado" method="POST">
         Correo: <input type="text" name="correo" placeholder="Correo del empleado">
-        <button type="submit" class="btn btn-primary">BUSCAR</button>
+        <button type="submit">BUSCAR</button>
     </form>
 
-    <a href="/empleados" class="btn btn-primary">Añadir Empleado</a>
-
-    <h3 class="title">EMPLEADOS:</h3>
+    <h3>EMPLEADOS:</h3>
     {% for empleado in miData %}
-    <div class="card">
-        <p><strong>ID:</strong> {{ empleado.ID_empleado }}</p>
-        <p><strong>Nombre:</strong> {{ empleado.nombre }}</p>
-        <p><strong>Apellido:</strong> {{ empleado.apellido }}</p>
-        <p><strong>Dirección:</strong> {{ empleado.direccion }}</p>
-        <p><strong>Teléfono:</strong> {{ empleado.telefono }}</p>
-        <p><strong>Email:</strong> {{ empleado.email }}</p>
-        <p><strong>Fecha de contrato:</strong> {{ empleado.contrato_fecha }}</p>
-        <p><strong>Número de sucursal:</strong> {{ empleado.ID_sucursal }}</p>
-        <div class="d-flex">
-            <a href="/editar_empleado/{{ empleado.ID_empleado }}" class="btn btn-primary mr-2">Editar</a>
+    <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+        <p>ID: {{ empleado.ID_empleado }}</p>
+        <p>Nombre: {{ empleado.nombre }}</p>
+        <p>Apellido: {{ empleado.apellido }}</p>
+        <p>Dirección: {{ empleado.direccion }}</p>
+        <p>Teléfono: {{ empleado.telefono }}</p>
+        <p>Email: {{ empleado.email }}</p>
+        <p>Fecha de contrato: {{ empleado.contrato_fecha }}</p>
+        <p>Número de sucursal: {{ empleado.ID_sucursal }}</p>
+        <div>
+            <a href="/editar_empleado/{{ empleado.ID_empleado }}" class="btn btn-primary">Editar</a>
             <form action="/borrar_empleado/{{ empleado.ID_empleado }}" method="POST" style="display: inline-block;">
                 <button type="submit" class="btn btn-danger">Borrar</button>
             </form>
+
+            <a href="/empleados_vender/{{ empleado.ID_empleado }}" class="btn btn-primary">Vender</a>
+            <a href="/empleados_venta/{{ empleado.ID_empleado }}" class="btn btn-primary">Ventas realizadas</a>
         </div>
     </div>
     {% endfor %}
+
 {% endblock %}

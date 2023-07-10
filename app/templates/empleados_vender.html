@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block customCSS %}
+<!-- Estilos personalizados aquí -->
+{% endblock %}
+
+{% block body %}
+    <h1>Venta de Productos</h1>
+
+    <form action="{{ url_for('empleados_vender', id_empleado=empleado.ID_empleado) }}" method="POST">
+        <input type="text" name="nombre_producto" placeholder="Buscar producto por nombre">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <h3>Productos:</h3>
+    {% if productos %}
+        {% for producto in productos %}
+            <div class="card">
+                <p><strong>ID:</strong> {{ producto[0] }}</p>
+                <p><strong>Nombre:</strong> {{ producto[1] }}</p>
+                <p><strong>Descripción:</strong> {{ producto[2] }}</p>
+                <p><strong>Precio:</strong> {{ producto[3] }}</p>
+                <!-- Resto de los detalles del producto -->
+                <form action="{{ url_for('realizar_venta', id_empleado=empleado.ID_empleado, id_producto=producto[0]) }}" method="POST">
+                    <button type="submit">Vender</button>
+                </form>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No se encontraron productos.</p>
+    {% endif %}
+{% endblock %}
+
+
