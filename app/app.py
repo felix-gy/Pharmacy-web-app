@@ -1,11 +1,4 @@
 from flask import Flask, render_template, request, redirect,url_for
-<<<<<<< HEAD
-import mysql.connector
-from controller.controllerSucursal import *
-from controller.controllerEmpleados import *
-from controller.controllerCliente import *
-from controller.controllerCategoria import *
-=======
 from datetime import date
 import random
 import mysql.connector #el code no me funciona con el from controller.controllerSucursal import * con este nomas
@@ -14,7 +7,7 @@ from controller.controllerSucursal import *
 from controller.controllerEmpleados import *
 from controller.controllerCliente import *
 from controller.controllerProducto import *
->>>>>>> 1bf705fc258e6d0aaeaff63d7258268ed3b33bed
+from controller.controllerCategoria import *
 
 db = mysql.connector.connect(
     host="sql.freedb.tech",
