@@ -30,9 +30,9 @@
         {% endfor %}
     </select><br><br>
     <label for="id_receta">Receta:</label>
-    <select id="id_receta" name="id_receta">
+    <select id="id_receta" name="id_receta" required>
         {% for receta in recetas %}
-        <option value="{{ receta[0] }}">No se requiere</option>
+        <option value="{{ receta[0] }}">{{ receta[1] }}</option>
         {% endfor %}
     </select><br><br>
     <input type="submit" value="Agregar">

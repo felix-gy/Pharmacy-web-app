@@ -9,14 +9,10 @@ app = Flask(__name__)
 
 #conexion a BD lo mismo que el archivo conexionBD.py
 db = mysql.connector.connect(
-    # host="sql.freedb.tech",
-    # user="freedb_db_test_111",
-    # passwd="4JKtwGf@DQD@b?w",
-    # database="freedb_db_pharmacy"
-    host ="127.0.0.1",
-    user ="root",
-    passwd ="gordillo303132x",
-    database = "db_pharmacy"
+    host="sql.freedb.tech",
+    user="freedb_db_test_111",
+    passwd="4JKtwGf@DQD@b?w",
+    database="freedb_db_pharmacy"
 )
 
 @app.route('/')
