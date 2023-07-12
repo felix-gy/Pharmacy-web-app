@@ -49,3 +49,19 @@ def eliminar_cliente(id_cliente):
     cursor.execute(sql, valores)
     conexion.commit()
     cursor.close()
+
+def obtener_ultimo_id_cliente():
+    conexion_MySQLdb = connectionBD()
+    cursor = conexion_MySQLdb.cursor()
+
+    querySQL = "SELECT MAX(ID_cliente) FROM Cliente"
+    cursor.execute(querySQL)
+
+    ultimo_id_cliente = cursor.fetchone()[0]
+    cursor.close()
+    conexion_MySQLdb.close()
+
+    if ultimo_id_cliente:
+        return ultimo_id_cliente
+    else:
+        return 0

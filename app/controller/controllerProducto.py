@@ -12,3 +12,18 @@ def obtener_producto_por_id(id_producto):
     conexion_MySQLdb.close()
 
     return producto
+
+def obtener_productos():
+    conexion_MySQLdb = connectionBD()
+    cursor = conexion_MySQLdb.cursor()
+
+    querySQL = "SELECT * FROM Producto"
+    cursor.execute(querySQL)
+
+    productos = cursor.fetchall()
+
+    cursor.close()
+    conexion_MySQLdb.close()
+
+    return productos
+

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block customCSS %}
+{% endblock %}
+
+<!-- Contenido -->
+{% block body %}
+<h1>Detalles de la Factura</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID Factura</th>
+      <th>Fecha</th>
+      <th>Total</th>
+      <th>ID Cliente</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{ factura.ID_factura }}</td>
+      <td>{{ factura.fecha }}</td>
+      <td>{{ factura.total }}</td>
+      <td>{{ factura.ID_cliente }}</td>
+    </tr>
+  </tbody>
+</table>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

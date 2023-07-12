@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block customCSS %}
+{% endblock %}
+
+<!-- Contenido -->
+{% block body %}
+    <h1>Cliente de Compra</h1>
+
+    <form action="/add_cliente_compra" method="POST">
+        <div>
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" id="nombre" required>
+        </div>
+        <div>
+            <label for="apellido">Apellido:</label>
+            <input type="text" name="apellido" id="apellido" required>
+        </div>
+        <div>
+            <label for="direccion">Dirección:</label>
+            <input type="text" name="direccion" id="direccion" required>
+        </div>
+        <div>
+            <label for="telefono">Teléfono:</label>
+            <input type="text" name="telefono" id="telefono" required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="text" name="email" id="email" required>
+        </div>
+        <div>
+            <label for="ID_sucursal">ID Sucursal:</label>
+            <input type="text" name="ID_sucursal" id="ID_sucursal" required>
+        </div>
+        <div>
+            <label for="ID_empleado">ID Empleado:</label>
+            <select name="ID_empleado" id="ID_empleado">
+                {% for empleado in empleados %}
+                    <option value="{{ empleado.ID_empleado }}">{{ empleado.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <input type="hidden" name="ID_producto" value="{{ request.args.get('ID_producto') }}">
+        <div>
+            <label for="precio">Precio:</label>
+            <input type="text" name="precio" id="precio" required>
+        </div>
+        <button type="submit">Agregar</button>
+    </form>
+    <p>Producto ID: {{ request.args.get('ID_producto') }}</p>
+    <p>Precio: {{ precio }}</p>
+{% endblock %}

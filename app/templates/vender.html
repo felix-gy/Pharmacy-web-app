@@ -1,0 +1,30 @@
+<!-- vender.html -->
+
+{% extends 'base.html' %}
+
+{% block customCSS %}
+{% endblock %}
+
+<!-- Contenido -->
+{% block body %}
+    <h1>Venta de Productos</h1>
+
+    <h3>Productos:</h3>
+    {% if productos %}
+        {% for producto in productos %}
+            <div class="card">
+                <p><strong>ID:</strong> {{ producto[0] }}</p>
+                <p><strong>Nombre:</strong> {{ producto[1] }}</p>
+                <p><strong>Descripción:</strong> {{ producto[2] }}</p>
+                <p><strong>Precio:</strong> {{ producto[3] }}</p>
+                <!-- Resto de los detalles del producto -->
+                <a href="/cliente_compra?ID_producto={{ producto[0] }}&precio={{ producto[3] }}" class="btn btn-primary">Comprar</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No se encontraron productos.</p>
+    {% endif %}
+{% endblock %}
+
+{% block js %}
+{% endblock %}

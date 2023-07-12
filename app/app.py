@@ -8,6 +8,7 @@ from controller.controllerEmpleados import *
 from controller.controllerCliente import *
 from controller.controllerProducto import *
 from controller.controllerCategoria import *
+from controller.controllerTransaccion import *
 
 db = mysql.connector.connect(
     host="sql.freedb.tech",
@@ -105,7 +106,7 @@ def editar_empleado(id_empleado):
         telefono = request.form['telefono']
         email = request.form['email']
         id_sucursal = request.form['ID_sucursal']
-        
+
         # Llama a una función que actualice los datos del empleado en la base de datos
         # Pasando los nuevos valores y el ID del empleado a editar
         actualizarEmpleado(id_empleado, nombre, apellido, direccion, telefono, email, id_sucursal)
@@ -184,6 +185,149 @@ def realizar_venta(id_empleado, id_producto):
 
 
 
+#transaccion
+################################################################
+@app.route('/transaccion', methods=['GET', 'POST'])
+def transaccion():
+    if request.method == 'POST':
+        tipo = request.form['tipo']
+        cantidad = request.form['cantidad']
+        id_venta = request.form['id_venta']
+        id_compra = request.form['id_compra']
+        id_factura = request.form['id_factura']
+
+        # Llamar a la función para crear la transacción en la base de datos
+        crearTransaccion(tipo, cantidad, id_venta, id_compra, id_factura)
+
+        # Redirigir a una página de éxito o mostrar un mensaje de éxito
+        return "Transacción creada exitosamente"
+
+    # Método GET - Mostrar el formulario
+    return render_template('transaccion.html')
+
+
+@app.route('/vender', methods=['GET', 'POST'])
+def vender():
+    if request.method == 'POST':
+        # Obtener los datos del formulario de búsqueda
+        producto_id = request.args.get('producto_id')
+
+        # Buscar el producto por ID
+        producto = obtener_producto_por_id(producto_id)
+
+        # Verificar si se encontró el producto
+        if producto:
+            # Renderizar la plantilla con el producto encontrado
+            return render_template('cliente_compra.html', empleados=empleados, producto_id=producto['ID_producto'])
+        else:
+            # Renderizar la plantilla con un mensaje de error
+            return render_template('vender.html', error=True)
+    else:
+        # Obtener todos los productos
+        productos = obtener_productos()
+
+        # Renderizar la plantilla con todos los productos
+        return render_template('vender.html', productos=productos)
+
+
+
+@app.route('/guardar_transaccion', methods=['POST'])
+def guardar_transaccion():
+    if request.method == 'POST':
+        tipo = request.form['tipo']
+        cantidad = request.form['cantidad']
+        id_venta = request.form['ID_venta']
+        id_compra = request.form['ID_compra']
+        id_factura = request.form['ID_factura']
+
+        # Obtener los datos de la venta y la compra
+        venta = obtener_venta_por_id(id_venta)
+        compra = obtener_compra_por_id(id_compra)
+
+        # Generar IDs aleatorios para empleado y factura
+        id_empleado = random.randint(1000, 10000)
+        id_factura = random.randint(1000, 10000)
+
+        # Realizar la inserción en la tabla de ventas de empleados
+        insertar_venta_empleado(venta['fecha'], venta['total'], id_empleado, venta['ID_producto'])
+
+        # Realizar la inserción en la tabla de compras de clientes
+        insertar_compra_cliente(compra['fecha'], compra['total'], compra['ID_cliente'], compra['ID_producto'])
+
+        # Generar la factura utilizando los IDs de venta y compra
+        generar_factura(id_venta, id_compra, id_factura)
+
+        # Obtener los datos de la factura generada
+        factura = obtener_factura_por_id(id_factura)
+
+        # Realizar la inserción en la tabla de facturas
+        insertar_factura(factura['fecha'], factura['total'], factura['ID_cliente'])
+
+        # Redireccionar a la página de éxito o mostrar mensaje de confirmación
+        # ...
+
+        return "Transacción guardada exitosamente"  # O puedes redirigir a otra página
+
+    # Manejar el caso si no se realiza una solicitud POST
+    return "Acceso denegado"  # O puedes redirigir a una página de error
+
+
+@app.route('/cliente_compra')
+def cliente_compra():
+    empleados = listaEmpleados()  # Obtener la lista de empleados
+    producto_id = request.args.get('producto_id')  # Obtener la ID del producto desde la URL
+    precio = "{:.2f}".format(float(request.args.get('precio')))
+
+    return render_template('cliente_compra.html', empleados=empleados, producto_id=producto_id, precio=precio)
+
+
+@app.route('/add_cliente_compra', methods=['POST'])
+def agregar_cliente_compra():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        direccion = request.form['direccion']
+        telefono = request.form['telefono']
+        email = request.form['email']
+        id_sucursal = request.form['ID_sucursal']
+        id_empleado = request.form['ID_empleado']
+        id_producto = request.form['ID_producto']
+        precio = request.form['precio']
+
+        # Obtener el último ID de cliente utilizado
+        ultimo_id_cliente = obtener_ultimo_id_cliente()
+
+        # Generar el siguiente ID de cliente sucesivo
+        nuevo_id_cliente = ultimo_id_cliente + 1
+
+        # Insertar los datos en la tabla Cliente
+        crear_cliente(nombre, apellido, direccion, telefono, email, id_sucursal)
+
+        # Generar IDs únicos para las transacciones
+        id_venta = random.randint(10000, 100000)
+        id_compra = random.randint(10000, 100000)
+        id_factura = random.randint(10000, 100000)
+
+        # Generar la fecha actual
+        fecha_actual = date.today().strftime("%Y-%m-%d")
+
+        # Calcular el total de la venta y la compra en base al precio del producto
+        total_venta = float(precio)
+        total_compra = float(precio)
+
+        # Resto de la lógica para agregar las transacciones a la base de datos
+
+        # Insertar los datos en la tabla Venta_empleado
+        insertar_venta_empleado(id_venta, fecha_actual, total_venta, id_empleado, id_producto)
+
+        # Insertar los datos en la tabla Compra_cliente
+        insertar_compra_cliente(id_compra, fecha_actual, total_compra, nuevo_id_cliente, id_producto)
+
+        # Insertar los datos en la tabla Factura
+        insertar_factura(id_factura, fecha_actual, total_venta, nuevo_id_cliente)
+
+        # Redireccionar a la página de éxito o mostrar mensaje de confirmación
+        return "Cliente de compra agregado exitosamente"  # O puedes redirigir a otra página
  
 @app.route('/empleados_venta/<int:id_empleado>')
 def empleado_venta(id_empleado):
