@@ -193,7 +193,7 @@ def empleado_venta(id_empleado):
 #Producto
 ################################################################
 # Ruta principal que muestra todos los productos
-@app.route('/productos')
+@app.route('/')
 def mostrar_productos():
     cursor = db.cursor()
     cursor.execute("SELECT * FROM Producto")
@@ -207,19 +207,27 @@ def agregar_producto():
         nombre = request.form['nombre']
         descripcion = request.form['descripcion']
         precio = float(request.form['precio'])
-        stock_cantidad = int(request.form['stock_cantidad'])
+        fecha_vencimiento = request.form['fecha_vencimiento']
         id_marca = int(request.form['id_marca'])
         id_categoria = int(request.form['id_categoria'])
         id_sucursal = int(request.form['id_sucursal'])
         id_receta = int(request.form['id_receta'])
-        id_receta = int(request.form['id_receta'])
-        id_proovedor = int(request.form['id_proovedor'])
+        id_distribuidor = int(request.form['id_distribuidor'])
+
         cursor = db.cursor()
-        cursor.execute("INSERT INTO Producto (nombre, descripcion, precio, stock_cantidad, ID_marca, ID_categoria, ID_sucursal, ID_recetam, proovedor) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                       (nombre, descripcion, precio, stock_cantidad, id_marca, id_categoria, id_sucursal, id_receta,id_proovedor))
+        cursor.execute("INSERT INTO Producto (nombre, descripcion, precio, fecha_vencimiento, ID_marca, ID_categoria, ID_sucursal, ID_receta, ID_distribuidor) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                       (nombre, descripcion, precio, fecha_vencimiento, id_marca, id_categoria, id_sucursal, id_receta, id_distribuidor))
         db.commit()
-        # CREAR UN INVENTARIO +
-        return redirect('/productos')
+
+        # Obtener el ID del producto recién creado
+        producto_id = cursor.lastrowid
+
+        # Crear una entrada en el inventario para el nuevo producto
+        cursor.execute("INSERT INTO Inventario (producto_id, cantidad) VALUES (%s, %s)",
+                       (producto_id, 0))  # Inicialmente, la cantidad en inventario se establece en 0
+        db.commit()
+
+        return redirect('/')
     else:
         cursor = db.cursor()
         cursor.execute("SELECT * FROM Marca")
@@ -230,9 +238,9 @@ def agregar_producto():
         sucursales = cursor.fetchall()
         cursor.execute("SELECT * FROM Receta")
         recetas = cursor.fetchall()
-        cursor.execute("SELECT * FROM Proveedor")
-        proveedores = cursor.fetchall()
-        return render_template('agregar_producto.html', marcas=marcas, categorias=categorias, sucursales=sucursales, recetas=recetas, proveedores=proveedores)
+        cursor.execute("SELECT * FROM Distribuidor")
+        distribuidores = cursor.fetchall()
+        return render_template('agregar_producto.html', marcas=marcas, categorias=categorias, sucursales=sucursales, recetas=recetas, distribuidores=distribuidores)
 
 # Ruta para eliminar un producto
 @app.route('/eliminar_producto/<int:id>', methods=['POST'])
@@ -240,30 +248,29 @@ def eliminar_producto(id):
     cursor = db.cursor()
     cursor.execute("DELETE FROM Producto WHERE ID_producto = %s", (id,))
     db.commit()
-    return redirect('/productos')
+    return redirect('/')
 
-#stack
-################################################################
-
+# ruta para agregar cantidad al stock
 @app.route('/agregar_cantidad', methods=['GET', 'POST'])
 def agregar_cantidad():
     if request.method == 'POST':
         producto_id = int(request.form['producto'])
-        proveedor = request.form['proveedor']
+        proveedor_id = int(request.form['proveedor'])
         cantidad = int(request.form['cantidad'])
-        fecha_vencimiento = request.form['fecha_vencimiento']
         monto_total = float(request.form['monto_total'])
 
         cursor = db.cursor()
-        cursor.execute("INSERT INTO Inventario (producto_id, proveedor, cantidad, fecha_vencimiento, monto_total) VALUES (%s, %s, %s, %s, %s)",
-                       (producto_id, proveedor, cantidad, fecha_vencimiento, monto_total))
+        cursor.execute("INSERT INTO Stack (producto_id, proveedor_id, cantidad, monto_total) VALUES (%s, %s, %s, %s)",
+                       (producto_id, proveedor_id, cantidad, monto_total))
         db.commit()
         return redirect('/')
     else:
         cursor = db.cursor()
         cursor.execute("SELECT * FROM Producto")
         productos = cursor.fetchall()
-        return render_template('stack.html', productos=productos)
+        cursor.execute("SELECT * FROM Proveedor")
+        proveedores = cursor.fetchall()
+        return render_template('stack.html', productos=productos, proveedores=proveedores)
 
 
 #CLiente
