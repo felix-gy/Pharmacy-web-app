@@ -238,6 +238,30 @@ def eliminar_producto(id):
     db.commit()
     return redirect('/productos')
 
+#stack
+################################################################
+
+@app.route('/agregar_cantidad', methods=['GET', 'POST'])
+def agregar_cantidad():
+    if request.method == 'POST':
+        producto_id = int(request.form['producto'])
+        proveedor = request.form['proveedor']
+        cantidad = int(request.form['cantidad'])
+        fecha_vencimiento = request.form['fecha_vencimiento']
+        monto_total = float(request.form['monto_total'])
+
+        cursor = db.cursor()
+        cursor.execute("INSERT INTO Stack (producto_id, proveedor, cantidad, fecha_vencimiento, monto_total) VALUES (%s, %s, %s, %s, %s)",
+                       (producto_id, proveedor, cantidad, fecha_vencimiento, monto_total))
+        db.commit()
+        return redirect('/')
+    else:
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM Producto")
+        productos = cursor.fetchall()
+        return render_template('stack.html', productos=productos)
+
+
 #CLiente
 ################################################################
 @app.route('/clientes')
