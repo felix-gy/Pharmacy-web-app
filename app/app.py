@@ -182,8 +182,6 @@ def realizar_venta(id_empleado, id_producto):
     else:
         return "El producto seleccionado no está disponible para la venta."
 
-
-
  
 @app.route('/empleados_venta/<int:id_empleado>')
 def empleado_venta(id_empleado):
@@ -210,13 +208,12 @@ def agregar_producto():
         fecha_vencimiento = request.form['fecha_vencimiento']
         id_marca = int(request.form['id_marca'])
         id_categoria = int(request.form['id_categoria'])
-        id_sucursal = int(request.form['id_sucursal'])
         id_receta = int(request.form['id_receta'])
         id_distribuidor = int(request.form['id_distribuidor'])
 
         cursor = db.cursor()
-        cursor.execute("INSERT INTO Producto (nombre, descripcion, precio, fecha_vencimiento, ID_marca, ID_categoria, ID_sucursal, ID_receta, ID_distribuidor) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                       (nombre, descripcion, precio, fecha_vencimiento, id_marca, id_categoria, id_sucursal, id_receta, id_distribuidor))
+        cursor.execute("INSERT INTO Producto (nombre, descripcion, precio, fecha_vencimiento, ID_marca, ID_categoria, ID_receta, ID_distribuidor) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                       (nombre, descripcion, precio, fecha_vencimiento, id_marca, id_categoria, id_receta, id_distribuidor))
         db.commit()
 
         # Obtener el ID del producto recién creado
@@ -234,13 +231,11 @@ def agregar_producto():
         marcas = cursor.fetchall()
         cursor.execute("SELECT * FROM Categoria")
         categorias = cursor.fetchall()
-        cursor.execute("SELECT * FROM Sucursal")
-        sucursales = cursor.fetchall()
         cursor.execute("SELECT * FROM Receta")
         recetas = cursor.fetchall()
         cursor.execute("SELECT * FROM Distribuidor")
         distribuidores = cursor.fetchall()
-        return render_template('agregar_producto.html', marcas=marcas, categorias=categorias, sucursales=sucursales, recetas=recetas, distribuidores=distribuidores)
+        return render_template('agregar_producto.html', marcas=marcas, categorias=categorias, recetas=recetas, distribuidores=distribuidores)
 
 # Ruta para eliminar un producto
 @app.route('/eliminar_producto/<int:id>', methods=['POST'])
@@ -250,18 +245,19 @@ def eliminar_producto(id):
     db.commit()
     return redirect('/')
 
-# ruta para agregar cantidad al stock
+# ruta para agregar cantidad al inventario
 @app.route('/agregar_cantidad', methods=['GET', 'POST'])
 def agregar_cantidad():
     if request.method == 'POST':
         producto_id = int(request.form['producto'])
         proveedor_id = int(request.form['proveedor'])
+        id_sucursal = int(request.form['id_sucursal'])
         cantidad = int(request.form['cantidad'])
         monto_total = float(request.form['monto_total'])
 
         cursor = db.cursor()
-        cursor.execute("INSERT INTO Stack (producto_id, proveedor_id, cantidad, monto_total) VALUES (%s, %s, %s, %s)",
-                       (producto_id, proveedor_id, cantidad, monto_total))
+        cursor.execute("INSERT INTO Inventario (producto_id, proveedor_id, id_sucursal, cantidad, monto_total) VALUES (%s, %s, %s, %s, %s)",
+                       (producto_id, proveedor_id, id_sucursal, cantidad, monto_total))
         db.commit()
         return redirect('/')
     else:
@@ -270,7 +266,9 @@ def agregar_cantidad():
         productos = cursor.fetchall()
         cursor.execute("SELECT * FROM Proveedor")
         proveedores = cursor.fetchall()
-        return render_template('stack.html', productos=productos, proveedores=proveedores)
+        cursor.execute("SELECT * FROM Sucursal")
+        sucursales = cursor.fetchall()
+        return render_template('inventario.html', productos=productos, proveedores=proveedores, sucursales=sucursales)
 
 
 #CLiente
