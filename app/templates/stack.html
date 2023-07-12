@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>Agregar Cantidad a Producto</h1>
+<form action="/agregar_cantidad" method="post">
+    <label for="producto">Nombre del Producto:</label>
+    <select id="producto" name="producto" required>
+        {% for producto in productos %}
+        <option value="{{ producto[0] }}">{{ producto[1] }}</option>
+        {% endfor %}
+    </select><br><br>
+    <label for="proveedor">Nombre del Proveedor:</label>
+    <input type="text" id="proveedor" name="proveedor" required><br><br>
+    <label for="cantidad">Cantidad:</label>
+    <input type="number" id="cantidad" name="cantidad" required><br><br>
+    <label for="fecha_vencimiento">Fecha de Vencimiento:</label>
+    <input type="date" id="fecha_vencimiento" name="fecha_vencimiento" required><br><br>
+    <label for="monto_total">Monto Total:</label>
+    <input type="number" step="0.01" id="monto_total" name="monto_total" required><br><br>
+    <input type="submit" value="Agregar Cantidad">
+</form>
+{% endblock %}
