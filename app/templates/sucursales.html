@@ -10,63 +10,63 @@
 <h3></h3>
 <!-- al apretar el submit el formulario sera enviado a la url por el metodo Post-->
 <div class="container">
-    <form action="/add_Sucursal" method="POST">
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre">
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="mb-3">
-            <label for="direccion" class="form-label">Dirección</label>
-            <input type="text" class="form-control" id="direccion" name="direccion">
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="mb-3">
-            <label for="telefono" class="form-label">Teléfono</label>
-            <input type="text" class="form-control" id="telefono" name="telefono">
-          </div>
+  <form action="/add_Sucursal" method="POST">
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="nombre" name="nombre">
         </div>
       </div>
-      <div class="row mt-2">
-        <div class="col-sm-12">
-          <button type="submit" class="btn btn-primary">Registrar</button>
+      <div class="col-sm-4">
+        <div class="mb-3">
+          <label for="direccion" class="form-label">Dirección</label>
+          <input type="text" class="form-control" id="direccion" name="direccion">
         </div>
       </div>
-    </form>
-  </div>
-  
+      <div class="col-sm-4">
+        <div class="mb-3">
+          <label for="telefono" class="form-label">Teléfono</label>
+          <input type="text" class="form-control" id="telefono" name="telefono">
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-sm-12">
+        <button type="submit" class="btn btn-primary">Registrar</button>
+      </div>
+    </div>
+  </form>
+</div>
+
 
 <h3 class="mt-3">SUCURSALES:</h3>
 <table class="table table-bordered table-hover" id="table">
-    <thead>
-        <tr class="table-secondary">
-            <th scope="col">#</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Direccion</th>
-            <th scope="col">Telefono</th>
-            <th scope="col">#farmacia </th>
-            <th> Acciones </th>
-        </tr>
-    </thead>
-    <tbody id="tablebody">
-        {% for sucursal in lista %}
-        <tr>
-            <td>{{ sucursal.ID_sucursal }}</td>
-            <td>{{ sucursal.nombre }}</td>
-            <td>{{ sucursal.direccion }}</td>
-            <td>{{ sucursal.telefono }}</td>
-            <td>{{ sucursal.ID_farmacia }}</td>
-            <td>
-                <a class="btn btn-outline-info" href="/edit_sucursal/{{sucursal.ID_sucursal}}"> Editar </a>
-                <a class="btn btn-outline-danger" href="/delete_sucursal/{{sucursal.ID_sucursal}}"> Eliminar</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
+  <thead>
+    <tr class="table-secondary">
+      <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Direccion</th>
+      <th scope="col">Telefono</th>
+      <th scope="col">#farmacia </th>
+      <th> Acciones </th>
+    </tr>
+  </thead>
+  <tbody id="tablebody">
+    {% for sucursal in lista %}
+    <tr>
+      <td>{{ sucursal.ID_sucursal }}</td>
+      <td>{{ sucursal.nombre }}</td>
+      <td>{{ sucursal.direccion }}</td>
+      <td>{{ sucursal.telefono }}</td>
+      <td>{{ sucursal.ID_farmacia }}</td>
+      <td>
+        <a class="btn btn-outline-info" href="/edit_sucursal/{{sucursal.ID_sucursal}}"> Editar </a>
+        <a class="btn btn-outline-danger" href="/delete_sucursal/{{sucursal.ID_sucursal}}"> Eliminar</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
 {% endblock %}
 

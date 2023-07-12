@@ -35,6 +35,13 @@
         <option value="{{ receta[0] }}">{{ receta[1] }}</option>
         {% endfor %}
     </select><br><br>
+    <label for="id_receta">Proveedor:</label>
+    <select id="id_proveedor" name="id_proveedor" required>
+        {% for proveedor in proveedores %}
+        <option value="{{ proveedor[0] }}">{{ proveedor[1] }}</option>
+        {% endfor %}
+    </select><br><br>
     <input type="submit" value="Agregar">
+    <!-- CREAR CON PROOVEDOR Y SUCURSAL UNA COLUMNA INMVETARIO -->
 </form>
 {% endblock %}

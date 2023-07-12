@@ -105,7 +105,7 @@ def editar_empleado(id_empleado):
         telefono = request.form['telefono']
         email = request.form['email']
         id_sucursal = request.form['ID_sucursal']
-
+        
         # Llama a una función que actualice los datos del empleado en la base de datos
         # Pasando los nuevos valores y el ID del empleado a editar
         actualizarEmpleado(id_empleado, nombre, apellido, direccion, telefono, email, id_sucursal)
@@ -198,7 +198,7 @@ def mostrar_productos():
     cursor = db.cursor()
     cursor.execute("SELECT * FROM Producto")
     productos = cursor.fetchall()
-    return render_template('productos.html', productos=productos, categorias = listaCategoria())
+    return render_template('productos.html', productos=productos)
 
 # Ruta para agregar un producto
 @app.route('/agregar_producto', methods=['GET', 'POST'])
@@ -212,11 +212,13 @@ def agregar_producto():
         id_categoria = int(request.form['id_categoria'])
         id_sucursal = int(request.form['id_sucursal'])
         id_receta = int(request.form['id_receta'])
-
+        id_receta = int(request.form['id_receta'])
+        id_proovedor = int(request.form['id_proovedor'])
         cursor = db.cursor()
-        cursor.execute("INSERT INTO Producto (nombre, descripcion, precio, stock_cantidad, ID_marca, ID_categoria, ID_sucursal, ID_receta) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                       (nombre, descripcion, precio, stock_cantidad, id_marca, id_categoria, id_sucursal, id_receta))
+        cursor.execute("INSERT INTO Producto (nombre, descripcion, precio, stock_cantidad, ID_marca, ID_categoria, ID_sucursal, ID_recetam, proovedor) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                       (nombre, descripcion, precio, stock_cantidad, id_marca, id_categoria, id_sucursal, id_receta,id_proovedor))
         db.commit()
+        # CREAR UN INVENTARIO +
         return redirect('/productos')
     else:
         cursor = db.cursor()
@@ -228,7 +230,9 @@ def agregar_producto():
         sucursales = cursor.fetchall()
         cursor.execute("SELECT * FROM Receta")
         recetas = cursor.fetchall()
-        return render_template('agregar_producto.html', marcas=marcas, categorias=categorias, sucursales=sucursales, recetas=recetas)
+        cursor.execute("SELECT * FROM Proveedor")
+        proveedores = cursor.fetchall()
+        return render_template('agregar_producto.html', marcas=marcas, categorias=categorias, sucursales=sucursales, recetas=recetas, proveedores=proveedores)
 
 # Ruta para eliminar un producto
 @app.route('/eliminar_producto/<int:id>', methods=['POST'])
@@ -251,7 +255,7 @@ def agregar_cantidad():
         monto_total = float(request.form['monto_total'])
 
         cursor = db.cursor()
-        cursor.execute("INSERT INTO Stack (producto_id, proveedor, cantidad, fecha_vencimiento, monto_total) VALUES (%s, %s, %s, %s, %s)",
+        cursor.execute("INSERT INTO Inventario (producto_id, proveedor, cantidad, fecha_vencimiento, monto_total) VALUES (%s, %s, %s, %s, %s)",
                        (producto_id, proveedor, cantidad, fecha_vencimiento, monto_total))
         db.commit()
         return redirect('/')
@@ -308,16 +312,32 @@ def update_cliente(id):
 
 #Categoria
 ################################################################
-@app.route('/add_categoria', methods=['POST'])
-def add_categoria():
-    nombre = request.form['nombre']
-    crear_categoria(nombre)
-    return redirect(url_for('mostrar_productos'))
+@app.route('/categoria', methods=['GET', 'POST'])
+def categoriaView():
+    # Obtenemos la lista de categorías
+    return render_template('categorias.html', lista=listaCategorias())
 
-@app.route('/delete_categoria/<string:id>',methods=['GET'] )
+@app.route('/add_Categoria', methods=['POST'])
+def add_Categoria():
+    nombre = request.form['nombre']
+    registrarCategoria(nombre)
+    return redirect(url_for('categoriaView'))
+
+@app.route('/delete_categoria/<string:id>')
 def delete_categoria(id):
-    eliminar_categoria(id)
-    return redirect(url_for('mostrar_productos'))
+    eliminarCategoria(id)
+    return redirect(url_for('categoriaView'))
+
+@app.route('/edit_categoria/<string:id>', methods=['GET', 'POST'])
+def edit_categoria(id):
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        updateCategoria(nombre, id)
+        return redirect(url_for('categoriaView'))
+    else:
+        return render_template('edit-categoria.html', data=getCategoria(id))
+
+
 
 
 if __name__ == '__main__':
