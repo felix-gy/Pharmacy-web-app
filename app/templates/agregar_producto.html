@@ -23,12 +23,6 @@
         <option value="{{ categoria[0] }}">{{ categoria[1] }}</option>
         {% endfor %}
     </select><br><br>
-    <label for="id_sucursal">Sucursal:</label>
-    <select id="id_sucursal" name="id_sucursal" required>
-        {% for sucursal in sucursales %}
-        <option value="{{ sucursal[0] }}">{{ sucursal[1] }}</option>
-        {% endfor %}
-    </select><br><br>
     <label for="id_receta">Receta:</label>
     <select id="id_receta" name="id_receta">
         {% for receta in recetas %}
