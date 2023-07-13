@@ -328,12 +328,15 @@ def agregar_producto():
                        (nombre, descripcion, precio, fecha_vencimiento, id_marca, id_categoria, id_receta, id_distribuidor))
         db.commit()
 
-        # Obtener el ID del producto recién creado
+        # Obtener el ID de producto, proveedor y sucursal
         producto_id = cursor.lastrowid
+        proveedor_id = cursor.lastrowid
+        id_sucursal = cursor.lastrowid
 
         # Crear una entrada en el inventario para el nuevo producto
-        cursor.execute("INSERT INTO Inventario (producto_id, cantidad) VALUES (%s, %s)",
-                       (producto_id, 0))  # Inicialmente, la cantidad en inventario se establece en 0
+        cursor.execute("INSERT INTO Inventario (producto_id, cantidad, proveedor_id, id_sucursal) VALUES (%s, %s, %s, %s)",
+                       (producto_id, 0, proveedor_id, id_sucursal)) # Inicialmente, la cantidad en inventario se establece en 0
+        
         db.commit()
 
         return redirect('/')
