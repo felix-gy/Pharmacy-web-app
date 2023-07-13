@@ -10,6 +10,8 @@ from controller.controllerProducto import *
 from controller.controllerCategoria import *
 from controller.controllerTransaccion import *
 
+from controller.controllerFarmacia import *
+
 db = mysql.connector.connect(
     host ="localhost",
     user ="root",
@@ -18,10 +20,13 @@ db = mysql.connector.connect(
 )
 
 app = Flask(__name__)
-
+#Farmacia
+################################################################
 @app.route('/')
 def index():
-    return render_template('index.html')
+    data = listaFarmacia()
+    print(data)
+    return render_template('index.html', data = data)
 
 #Sucursal
 ################################################################
@@ -303,7 +308,7 @@ def agregar_cliente_compra():
 #Producto
 ################################################################
 # Ruta principal que muestra todos los productos
-@app.route('/')
+@app.route('/productos')
 def mostrar_productos():
     cursor = db.cursor()
     cursor.execute("SELECT * FROM Producto")
@@ -321,7 +326,7 @@ def agregar_producto():
         id_marca = int(request.form['id_marca'])
         id_categoria = int(request.form['id_categoria'])
         id_receta = int(request.form['id_receta'])
-        id_distribuidor = int(request.form['id_distribuidor'])
+        id_distribuidor = int(request.form['id_'])
 
         cursor = db.cursor()
         cursor.execute("INSERT INTO Producto (nombre, descripcion, precio, fecha_vencimiento, ID_marca, ID_categoria, ID_receta, ID_distribuidor) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
@@ -336,7 +341,7 @@ def agregar_producto():
                        (producto_id, 0))  # Inicialmente, la cantidad en inventario se establece en 0
         db.commit()
 
-        return redirect('/')
+        return redirect('/productos')
     else:
         cursor = db.cursor()
         cursor.execute("SELECT * FROM Marca")
@@ -355,7 +360,7 @@ def eliminar_producto(id):
     cursor = db.cursor()
     cursor.execute("DELETE FROM Producto WHERE ID_producto = %s", (id,))
     db.commit()
-    return redirect('/')
+    return redirect('/productos')
 
 # ruta para agregar cantidad al inventario
 @app.route('/agregar_cantidad', methods=['GET', 'POST'])
@@ -370,7 +375,7 @@ def agregar_cantidad():
         cursor.execute("INSERT INTO Inventario (producto_id, proveedor_id, id_sucursal, cantidad) VALUES (%s, %s, %s, %s)",
                        (producto_id, proveedor_id, id_sucursal, cantidad))
         db.commit()
-        return redirect('/')
+        return redirect('/productos')
     else:
         cursor = db.cursor()
         cursor.execute("SELECT * FROM Producto")
@@ -452,7 +457,6 @@ def edit_categoria(id):
         return redirect(url_for('categoriaView'))
     else:
         return render_template('edit-categoria.html', data=getCategoria(id))
-
 
 
 

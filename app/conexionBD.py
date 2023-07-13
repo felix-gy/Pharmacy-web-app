@@ -4,10 +4,10 @@ import mysql.connector
 #NUEVA CONEXION:
 def connectionBD():
     mydb = mysql.connector.connect(
-        host ="sql.freedb.tech",
-        user ="freedb_admin_test_1",
-        passwd ="sT$w&z&Btw6CsJw",
-        database = "freedb_db_pharmacy_222"
+        host ="localhost",
+        user ="root",
+        passwd ="",
+        database = ""
         )
     if mydb:
         print ("Conexion exitosa a BD")
