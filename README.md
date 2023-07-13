@@ -1,7 +1,5 @@
 # Pharmacy web app
 
-https://phpmyadmin.freedb.tech/index.php?route=/&route=%2F
-
 ### Instalación
 
 ```bash
