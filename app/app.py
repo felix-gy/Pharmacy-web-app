@@ -9,6 +9,7 @@ from controller.controllerCliente import *
 from controller.controllerProducto import *
 from controller.controllerCategoria import *
 from controller.controllerTransaccion import *
+from controller.controllerCompra import *
 
 db = mysql.connector.connect(
     host ="localhost",
@@ -298,6 +299,17 @@ def agregar_cliente_compra():
 
         # Redireccionar a la página de detalles de la factura
         return render_template('factura.html', factura=factura)
+
+#Reporte
+################################################################
+@app.route('/reporte')
+def mostrar_reporte():
+    # Aquí obtienes los datos del reporte de compras desde la base de datos
+    reporte_compras = obtener_reporte_compras()
+
+    return render_template('reporte.html', reporte_compras=reporte_compras)
+
+
 
 
 #Producto

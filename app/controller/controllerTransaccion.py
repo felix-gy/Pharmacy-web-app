@@ -160,3 +160,18 @@ def obtener_factura_por_id(id_factura):
     conexion_MySQLdb.close()
 
     return resultadoBusqueda
+
+def obtener_reporte_compras():
+    conexion_MySQLdb = connectionBD()
+    cursor = conexion_MySQLdb.cursor(dictionary=True)
+
+    querySQL = "SELECT * FROM Compra_cliente"
+
+    cursor.execute(querySQL)
+    resultadoBusqueda = cursor.fetchall()
+
+    cursor.close()
+    conexion_MySQLdb.close()
+
+    return resultadoBusqueda
+
