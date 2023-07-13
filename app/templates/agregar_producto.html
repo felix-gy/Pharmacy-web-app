@@ -35,6 +35,21 @@
         <option value="{{ distribuidor[0] }}">{{ distribuidor[1] }}</option>
         {% endfor %}
     </select><br><br>
+
+    <label for="proveedor">Proveedor:</label>
+    <select id="proveedor" name="proveedor" required>
+        {% for proveedor in proveedores %}
+        <option value="{{ proveedor[0] }}">{{ proveedor[1] }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <label for="id_sucursal">Sucursal:</label>
+    <select id="id_sucursal" name="id_sucursal" required>
+        {% for sucursal in sucursales %}
+        <option value="{{ sucursal[0] }}">{{ sucursal[1] }}</option>
+        {% endfor %}
+    </select><br><br>
+
     <input type="submit" value="Agregar">
 </form>
 {% endblock %}
