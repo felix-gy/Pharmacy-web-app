@@ -255,6 +255,9 @@ def agregar_cliente_compra():
         id_compra = random.randint(10000, 100000)
         id_factura = random.randint(10000, 100000)
 
+        # Generar el tipo de transacción (por ejemplo, "Compra" o "Venta")
+        tipo_transaccion = "Compra"  # Puedes ajustar esto según tus necesidades
+
         # Generar la fecha actual
         fecha_actual = date.today().strftime("%Y-%m-%d")
 
@@ -278,14 +281,20 @@ def agregar_cliente_compra():
         cursor = db.cursor()
         cursor.execute("SELECT * FROM Factura ORDER BY ID_factura DESC LIMIT 1")
         factura_data = cursor.fetchone()
+        # Insertar los datos en la tabla Transaccion_compra_venta
+        cursor.execute("INSERT INTO Transaccion_compra_venta (tipo, cantidad, ID_venta, ID_compra, ID_factura) VALUES (%s, %s, %s, %s, %s)",
+                    (tipo_transaccion, 1, id_venta, id_compra, id_factura))
+        db.commit()
 
         # Crear el diccionario de la factura
         factura = {
-            'ID_factura': factura_data[0],
-            'fecha': factura_data[1],
-            'total': factura_data[2],
-            'ID_cliente': factura_data[3]
+            'ID_factura': id_factura,
+            'fecha': fecha_actual,
+            'total': total_venta,
+            'ID_cliente': nuevo_id_cliente,
+            'tipo_transaccion': tipo_transaccion
         }
+
 
         # Redireccionar a la página de detalles de la factura
         return render_template('factura.html', factura=factura)
