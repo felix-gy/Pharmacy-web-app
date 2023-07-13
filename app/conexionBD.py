@@ -2,6 +2,9 @@ import mysql.connector
 
 #Conectandose la base desplegada en la nube
 #NUEVA CONEXION:
+
+################################################################
+#COLOCA TU SERVER LOCAL AQUI Y EN EL APP.PY
 def connectionBD():
     mydb = mysql.connector.connect(
         host ="localhost",

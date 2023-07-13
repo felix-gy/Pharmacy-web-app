@@ -15,8 +15,8 @@ from controller.controllerFarmacia import *
 db = mysql.connector.connect(
     host ="localhost",
     user ="root",
-    passwd ="",
-    database = ""
+    passwd ="gordillo303132x",
+    database = "new_schema"
 )
 
 app = Flask(__name__)
@@ -28,7 +28,7 @@ def index():
     print(data)
     return render_template('index.html', data = data)
 
-#Sucursal
+#Sucursal   
 ################################################################
 @app.route('/sucursal',methods=['GET','POST'])
 def sucursalView():
@@ -342,17 +342,15 @@ def agregar_producto():
         id_sucursal = int(request.form['id_sucursal'])
 
         cursor = db.cursor()
-        cursor.execute("INSERT INTO Producto (nombre, descripcion, precio, fecha_vencimiento, ID_marca, ID_categoria, ID_receta, ID_distribuidor, proveedor_ID, ID_sucursal) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                       (nombre, descripcion, precio, fecha_vencimiento, id_marca, id_categoria, id_receta, id_distribuidor, proveedor_id, id_sucursal))
+        cursor.execute("INSERT INTO Producto (nombre, descripcion, precio, fecha_vencimiento, ID_marca, ID_categoria, ID_receta, ID_distribuidor) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+                       (nombre, descripcion, precio, fecha_vencimiento, id_marca, id_categoria, id_receta, id_distribuidor))
         db.commit()
 
         # Obtener el ID de producto, proveedor y sucursal
         producto_id = cursor.lastrowid
-        proveedor_id = cursor.lastrowid
-        id_sucursal = cursor.lastrowid
 
         # Crear una entrada en el inventario para el nuevo producto
-        cursor.execute("INSERT INTO Inventario (producto_id, cantidad, proveedor_id, id_sucursal) VALUES (%s, %s, %s, %s)",
+        cursor.execute("INSERT INTO Inventario (ID_producto, cantidad, ID_proveedor, ID_sucursal) VALUES (%s, %s, %s, %s)",
                        (producto_id, 0, proveedor_id, id_sucursal)) # Inicialmente, la cantidad en inventario se establece en 0
         db.commit()
 
@@ -377,6 +375,7 @@ def agregar_producto():
 @app.route('/eliminar_producto/<int:id>', methods=['POST'])
 def eliminar_producto(id):
     cursor = db.cursor()
+    cursor.execute("DELETE FROM Inventario WHERE ID_producto = %s", (id,))
     cursor.execute("DELETE FROM Producto WHERE ID_producto = %s", (id,))
     db.commit()
     return redirect('/productos')
