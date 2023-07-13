@@ -11,10 +11,10 @@ from controller.controllerCategoria import *
 from controller.controllerTransaccion import *
 
 db = mysql.connector.connect(
-    host="sql.freedb.tech",
-    user="freedb_db_test_111",
-    passwd="4JKtwGf@DQD@b?w",
-    database="freedb_db_pharmacy"
+    host ="sql.freedb.tech",
+    user ="freedb_admin_test_1",
+    passwd ="sT$w&z&Btw6CsJw",
+    database = "freedb_db_pharmacy_222"
 )
 
 app = Flask(__name__)
