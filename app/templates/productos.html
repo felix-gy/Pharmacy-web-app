@@ -13,6 +13,7 @@
         <th>Descripcion</th>
         <th>Precio</th>
         <th>Cantidad en stock</th>
+        <th>fecha de Vencimiento</th>
         <th>Acciones</th>
     </tr>
     {% for producto in productos %}
@@ -22,6 +23,7 @@
         <td>{{ producto[2] }}</td>
         <td>{{ producto[3] }}</td>
         <td>{{ producto[4] }}</td>
+        <td>{{ producto[8] }}</td>
         <td>
             <form action="/eliminar_producto/{{ producto[0] }}" method="post">
                 <input type="submit" value="Eliminar">

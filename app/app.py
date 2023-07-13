@@ -15,8 +15,8 @@ from controller.controllerFarmacia import *
 db = mysql.connector.connect(
     host ="localhost",
     user ="root",
-    passwd ="gordillo303132x",
-    database = "new_schema"
+    passwd ="",
+    database = ""
 )
 
 app = Flask(__name__)
