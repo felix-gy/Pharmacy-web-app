@@ -365,11 +365,10 @@ def agregar_cantidad():
         proveedor_id = int(request.form['proveedor'])
         id_sucursal = int(request.form['id_sucursal'])
         cantidad = int(request.form['cantidad'])
-        monto_total = float(request.form['monto_total'])
 
         cursor = db.cursor()
-        cursor.execute("INSERT INTO Inventario (producto_id, proveedor_id, id_sucursal, cantidad, monto_total) VALUES (%s, %s, %s, %s, %s)",
-                       (producto_id, proveedor_id, id_sucursal, cantidad, monto_total))
+        cursor.execute("INSERT INTO Inventario (producto_id, proveedor_id, id_sucursal, cantidad) VALUES (%s, %s, %s, %s)",
+                       (producto_id, proveedor_id, id_sucursal, cantidad))
         db.commit()
         return redirect('/')
     else:
