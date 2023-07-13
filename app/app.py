@@ -9,7 +9,7 @@ from controller.controllerCliente import *
 from controller.controllerProducto import *
 from controller.controllerCategoria import *
 from controller.controllerTransaccion import *
-
+from controller.controllerCompra import *
 from controller.controllerFarmacia import *
 
 db = mysql.connector.connect(
@@ -304,6 +304,17 @@ def agregar_cliente_compra():
         # Redireccionar a la página de detalles de la factura
         return render_template('factura.html', factura=factura)
 
+#Reporte
+################################################################
+@app.route('/reporte')
+def mostrar_reporte():
+    # Aquí obtienes los datos del reporte de compras desde la base de datos
+    reporte_compras = obtener_reporte_compras()
+
+    return render_template('reporte.html', reporte_compras=reporte_compras)
+
+
+
 
 #Producto
 ################################################################
@@ -326,19 +337,23 @@ def agregar_producto():
         id_marca = int(request.form['id_marca'])
         id_categoria = int(request.form['id_categoria'])
         id_receta = int(request.form['id_receta'])
-        id_distribuidor = int(request.form['id_'])
+        id_distribuidor = int(request.form['id_distribuidor'])
+        proveedor_id = int(request.form['proveedor'])
+        id_sucursal = int(request.form['id_sucursal'])
 
         cursor = db.cursor()
-        cursor.execute("INSERT INTO Producto (nombre, descripcion, precio, fecha_vencimiento, ID_marca, ID_categoria, ID_receta, ID_distribuidor) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                       (nombre, descripcion, precio, fecha_vencimiento, id_marca, id_categoria, id_receta, id_distribuidor))
+        cursor.execute("INSERT INTO Producto (nombre, descripcion, precio, fecha_vencimiento, ID_marca, ID_categoria, ID_receta, ID_distribuidor, proveedor_ID, ID_sucursal) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                       (nombre, descripcion, precio, fecha_vencimiento, id_marca, id_categoria, id_receta, id_distribuidor, proveedor_id, id_sucursal))
         db.commit()
 
-        # Obtener el ID del producto recién creado
+        # Obtener el ID de producto, proveedor y sucursal
         producto_id = cursor.lastrowid
+        proveedor_id = cursor.lastrowid
+        id_sucursal = cursor.lastrowid
 
         # Crear una entrada en el inventario para el nuevo producto
-        cursor.execute("INSERT INTO Inventario (producto_id, cantidad) VALUES (%s, %s)",
-                       (producto_id, 0))  # Inicialmente, la cantidad en inventario se establece en 0
+        cursor.execute("INSERT INTO Inventario (producto_id, cantidad, proveedor_id, id_sucursal) VALUES (%s, %s, %s, %s)",
+                       (producto_id, 0, proveedor_id, id_sucursal)) # Inicialmente, la cantidad en inventario se establece en 0
         db.commit()
 
         return redirect('/productos')
@@ -352,7 +367,11 @@ def agregar_producto():
         recetas = cursor.fetchall()
         cursor.execute("SELECT * FROM Distribuidor")
         distribuidores = cursor.fetchall()
-        return render_template('agregar_producto.html', marcas=marcas, categorias=categorias, recetas=recetas, distribuidores=distribuidores)
+        cursor.execute("SELECT * FROM Proveedor")
+        proveedores = cursor.fetchall()
+        cursor.execute("SELECT * FROM Sucursal")
+        sucursales = cursor.fetchall()
+        return render_template('agregar_producto.html', marcas=marcas, categorias=categorias, recetas=recetas, distribuidores=distribuidores, proveedores=proveedores, sucursales=sucursales)
 
 # Ruta para eliminar un producto
 @app.route('/eliminar_producto/<int:id>', methods=['POST'])

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block customCSS %}
+<style>
+  .report-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .report-table th,
+  .report-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .report-table th {
+    background-color: #f2f2f2;
+  }
+</style>
+{% endblock %}
+
+<!-- Contenido -->
+{% block body %}
+  <h1>Reporte de Compras</h1>
+  <table class="report-table">
+    <thead>
+      <tr>
+        <th>ID Compra</th>
+        <th>Fecha</th>
+        <th>Total</th>
+        <th>ID Cliente</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for compra in reporte_compras %}
+      <tr>
+        <td>{{ compra.ID_compra }}</td>
+        <td>{{ compra.fecha }}</td>
+        <td>{{ compra.total }}</td>
+        <td>{{ compra.ID_cliente }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
