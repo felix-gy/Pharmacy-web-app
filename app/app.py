@@ -322,10 +322,12 @@ def agregar_producto():
         id_categoria = int(request.form['id_categoria'])
         id_receta = int(request.form['id_receta'])
         id_distribuidor = int(request.form['id_distribuidor'])
+        proveedor_id = int(request.form['proveedor'])
+        id_sucursal = int(request.form['id_sucursal'])
 
         cursor = db.cursor()
-        cursor.execute("INSERT INTO Producto (nombre, descripcion, precio, fecha_vencimiento, ID_marca, ID_categoria, ID_receta, ID_distribuidor) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                       (nombre, descripcion, precio, fecha_vencimiento, id_marca, id_categoria, id_receta, id_distribuidor))
+        cursor.execute("INSERT INTO Producto (nombre, descripcion, precio, fecha_vencimiento, ID_marca, ID_categoria, ID_receta, ID_distribuidor, proveedor_ID, ID_sucursal) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                       (nombre, descripcion, precio, fecha_vencimiento, id_marca, id_categoria, id_receta, id_distribuidor, proveedor_id, id_sucursal))
         db.commit()
 
         # Obtener el ID de producto, proveedor y sucursal
@@ -336,7 +338,6 @@ def agregar_producto():
         # Crear una entrada en el inventario para el nuevo producto
         cursor.execute("INSERT INTO Inventario (producto_id, cantidad, proveedor_id, id_sucursal) VALUES (%s, %s, %s, %s)",
                        (producto_id, 0, proveedor_id, id_sucursal)) # Inicialmente, la cantidad en inventario se establece en 0
-        
         db.commit()
 
         return redirect('/')
@@ -350,7 +351,11 @@ def agregar_producto():
         recetas = cursor.fetchall()
         cursor.execute("SELECT * FROM Distribuidor")
         distribuidores = cursor.fetchall()
-        return render_template('agregar_producto.html', marcas=marcas, categorias=categorias, recetas=recetas, distribuidores=distribuidores)
+        cursor.execute("SELECT * FROM Proveedor")
+        proveedores = cursor.fetchall()
+        cursor.execute("SELECT * FROM Sucursal")
+        sucursales = cursor.fetchall()
+        return render_template('agregar_producto.html', marcas=marcas, categorias=categorias, recetas=recetas, distribuidores=distribuidores, proveedores=proveedores, sucursales=sucursales)
 
 # Ruta para eliminar un producto
 @app.route('/eliminar_producto/<int:id>', methods=['POST'])
